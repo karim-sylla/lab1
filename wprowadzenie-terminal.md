@@ -69,7 +69,33 @@ Celem tego projektu jest zdobycie praktycznych umiejętności budowania aplikacj
    
    > Na tym etapie potrzebujemy tylko tych dwóch pakietów do pracy z API Gemini. W kolejnych fazach będziemy dodawać inne zależności odpowiednio do potrzeb.
 
-8. **Weryfikacja instalacji Git i aktywacja**
+8. **Utworzenie pliku .gitignore**
+   Koniecznie utwórz  plik `.gitignore`:
+   
+   **Albo ręcznie:**
+   - Utwórz nowy plik tekstowy o nazwie `.gitignore` w głównym katalogu projektu
+   - Dodaj do niego następujące linie:
+     ```
+     venv/
+     .env
+     __pycache__/
+     *.pyc
+     ```
+   
+   **Albo za pomocą komend terminala (bash):**
+   ```bash
+   touch .gitignore
+   echo "venv/" >> .gitignore
+   echo ".env" >> .gitignore
+   echo "__pycache__/" >> .gitignore
+   echo "*.pyc" >> .gitignore
+   ```
+   
+   > Plik .gitignore określa, które pliki i katalogi Git powinien ignorować podczas śledzenia zmian. Zwykle pomijamy pliki tymczasowe, katalogi środowiska wirtualnego, pliki zawierające wrażliwe dane (jak .env) oraz pliki specyficzne dla IDE, ponieważ nie są one istotne dla projektu i mogą zawierać dane specyficzne dla danego komputera.
+
+9. **Weryfikacja instalacji Git i aktywacja**
+   Po utworzeniu pliku `.gitignore`, możemy przystąpić do inicjalizacji repozytorium Git. Najpierw warto sprawdzić, czy Git jest poprawnie zainstalowany, a następnie skonfigurować podstawowe informacje o użytkowniku. Te kroki są niezbędne przed rozpoczęciem śledzenia zmian w projekcie.
+   
    ```bash
    git --version
    git config --global user.name "Karim Sylla"
@@ -78,28 +104,25 @@ Celem tego projektu jest zdobycie praktycznych umiejętności budowania aplikacj
    git add .
    git commit -m "Inicjalizacja projektu"
    ```
-   
+
    > Git pozwala na śledzenie zmian w projekcie, wersjonowanie kodu i łatwą współpracę. Konfiguracja nazwy użytkownika i adresu email jest wymagana przed pierwszym commitem, by właściwie identyfikować autora zmian.
 
-9. **Utworzenie pliku .gitignore**
-   Możesz dodać poniższe wartości do pliku `.gitignore` ręcznie lub wykonać poniższe komendy w terminalu (bash):
-   ```bash
-   echo "venv/" >> .gitignore
-   echo ".env" >> .gitignore
-   git add .gitignore
-   git commit -m "Dodanie pliku .gitignore"
-   ```
-   
-   > Plik .gitignore określa, które pliki i katalogi Git powinien ignorować podczas śledzenia zmian. Zwykle pomijamy pliki tymczasowe, katalogi środowiska wirtualnego, pliki zawierające wrażliwe dane (jak .env) oraz pliki specyficzne dla IDE, ponieważ nie są one istotne dla projektu i mogą zawierać dane specyficzne dla danego komputera.
-
 10. **Instalacja zależności**
+   Po inicjalizacji repozytorium Git, następnym krokiem jest instalacja wszystkich wymaganych bibliotek Python zdefiniowanych w pliku requirements.txt. Jest to niezbędne, aby nasza aplikacja miała dostęp do wszystkich potrzebnych narzędzi i interfejsów API. Wykonaj polecie w terminalu
+   
    ```bash
    pip install -r requirements.txt
    ```
+   
+   > Instalacja zależności z pliku requirements.txt zapewnia, że wszystkie wymagane biblioteki będą dostępne w odpowiednich wersjach. To ważny krok pozwalający na utrzymanie spójności środowiska i uniknięcie problemów z kompatybilnością między różnymi wersjami bibliotek.
 
-10. **Dokumentacja Gemini API**
+11. **Dokumentacja Gemini API**
+   Przed rozpoczęciem programowania warto zapoznać się z oficjalną dokumentacją Gemini API, która zawiera szczegółowe informacje o dostępnych funkcjach, parametrach i przykładach użycia:
+   
    - Przewodnik szybkiego startu: https://ai.google.dev/gemini-api/docs/quickstart
    - Dokumentacja generowania tekstu: https://ai.google.dev/gemini-api/docs/text-generation
+   
+   > Dokumentacja API jest podstawowym źródłem wiedzy dla programisty. Zawiera szczegółowe informacje o wszystkich dostępnych funkcjach, ich parametrach, wartościach zwracanych oraz przykładach użycia. Regularne odwoływanie się do dokumentacji pomaga w efektywnym wykorzystaniu możliwości API i uniknięciu typowych błędów.
 
 ## Aplikacja terminalowa (app_terminal.py)
 
