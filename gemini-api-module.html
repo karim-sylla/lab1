@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moduł API Gemini | Gemini Projekt</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="main-nav">
+        <div class="logo">Gemini Projekt</div>
+        <ul>
+            <li><a href="index.html">Wprowadzenie</a></li>
+            <li><a href="gemini-api-module.html" class="active">Moduł API Gemini</a></li>
+            <li><a href="aplikacje-desktopowe.html">Aplikacje Desktopowe</a></li>
+            <li><a href="aplikacja-streamlit.html">Aplikacja Streamlit</a></li>
+            <li><a href="aplikacja-flask.html">Aplikacja Flask</a></li>
+        </ul>
+    </nav>
+    <main class="content">
+        <h1>Moduł API Gemini (gemini_api.py)</h1>
+        <p>Ten moduł zawiera funkcjonalność komunikacji z Google Gemini API, która jest współdzielona przez wszystkie interfejsy aplikacji.</p>
+        <h2>Utworzenie modułu API</h2>
+        <ol>
+            <li>Utwórz plik <code>gemini_api.py</code> w głównym folderze projektu</li>
+            <li>Skopiuj poniższy kod do utworzonego pliku</li>
+            <li>Zapisz zmiany w repozytorium:
+                <pre><code>git add gemini_api.py
+git commit -m "Dodanie modułu API Gemini"</code></pre>
+            </li>
+        </ol>
+        <pre><code>import os
+from dotenv import load_dotenv
+from google import genai
+from google.genai import types
+
+def init_client():
+    """Inicjalizuje klienta Gemini API"""
+    load_dotenv()  # Załadowanie zmiennych środowiskowych
+    api_key = os.getenv("GEMINI_API_KEY")
+    return genai.Client(api_key=api_key)
+
+def generate_response(prompt, system_prompt="", temperature=0.7, max_tokens=1024):
+    """
+    Generuje odpowiedź z modelu Gemini
+    
+    Args:
+        prompt (str): Zapytanie użytkownika
+        system_prompt (str): Instrukcja systemowa (opcjonalna)
+        temperature (float): Parametr temperature (0.0-1.0)
+        max_tokens (int): Maksymalna liczba tokenów w odpowiedzi
+        
+    Returns:
+        str: Odpowiedź z modelu
+    """
+    client = init_client()
+    
+    try:
+        # Konfiguracja generowania treści z systemową instrukcją
+        config = types.GenerateContentConfig(
+            temperature=temperature,
+            max_output_tokens=max_tokens,
+            system_instruction=system_prompt
+        )
+        
+        # Generowanie odpowiedzi
+        response = client.models.generate_content(
+            model="gemini-2.0-flash",
+            contents=prompt,
+            config=config
+        )
+        
+        return response.text
+    except Exception as e:
+        return f"Błąd: {str(e)}"
+</code></pre>
+        <h2>Wyjaśnienie kodu</h2>
+        <ul>
+            <li><b>init_client()</b> – inicjalizuje klienta Gemini API, wczytując klucz API z pliku <code>.env</code></li>
+            <li><b>generate_response()</b> – główna funkcja generująca odpowiedź z modelu Gemini, przyjmująca parametry: <code>prompt</code>, <code>system_prompt</code>, <code>temperature</code>, <code>max_tokens</code></li>
+        </ul>
+        <p>Kod obsługuje dwa rodzaje zapytań: z instrukcją systemową i bez niej. Moduł wykorzystuje bibliotekę <code>dotenv</code> do wczytywania zmiennych środowiskowych i obsługuje wyjątki, zwracając komunikat błędu w przypadku problemów z generowaniem odpowiedzi.</p>
+        <h2>Co dalej?</h2>
+        <p>Teraz, gdy mamy gotowy moduł do komunikacji z Gemini API, możemy przejść do tworzenia aplikacji z interfejsem graficznym. Przejdź do <a href="aplikacje-desktopowe.html">aplikacji desktopowych</a>, aby nauczyć się implementować interfejsy użytkownika przy użyciu Tkinter i PySide6.</p>
+    </main>
+    <footer>
+        <div>© 2025 Gemini Projekt. Wszelkie prawa zastrzeżone.</div>
+    </footer>
+</body>
+</html>

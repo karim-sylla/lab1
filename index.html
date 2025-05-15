@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wprowadzenie i aplikacja terminalowa | Gemini Projekt</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="main-nav">
+        <div class="logo">Gemini Projekt</div>
+        <ul>
+            <li><a href="index.html" class="active">Wprowadzenie</a></li>
+            <li><a href="gemini-api-module.html">Moduł API Gemini</a></li>
+            <li><a href="aplikacje-desktopowe.html">Aplikacje Desktopowe</a></li>
+            <li><a href="aplikacja-streamlit.html">Aplikacja Streamlit</a></li>
+            <li><a href="aplikacja-flask.html">Aplikacja Flask</a></li>
+        </ul>
+    </nav>
+    <main class="content">
+        <h1>Wprowadzenie i aplikacja terminalowa</h1>
+        <h2>Cel ćwiczenia</h2>
+        <p>Celem tego projektu jest zdobycie praktycznych umiejętności budowania aplikacji wykorzystujących modele językowe (LLM) na przykładzie Gemini API. Przejdziemy przez pełny cykl rozwoju - od prostej aplikacji terminalowej, przez aplikacje desktopowe, aż po nowoczesne interfejsy webowe. Poznasz różne metody integracji API modeli językowych z aplikacjami oraz nauczysz się budować przyjazne dla użytkownika interfejsy do interakcji z AI. Te umiejętności stanowią solidną podstawę do tworzenia zaawansowanych narzędzi i rozwiązań opartych na sztucznej inteligencji.</p>
+        <h2>Przygotowanie środowiska</h2>
+        <ol>
+            <li><b>Stworzenie folderu projektu</b>
+                <pre><code>mkdir gemini_projekt
+cd gemini_projekt</code></pre>
+            </li>
+            <li><b>Instalacja GitHub Copilot w VSC</b>
+                <ul>
+                    <li>Otwórz VSC</li>
+                    <li>Przejdź do Extensions (Ctrl+Shift+X)</li>
+                    <li>Wyszukaj "GitHub Copilot" i zainstaluj</li>
+                </ul>
+            </li>
+            <li><b>Założenie konta Gemini Studio</b>
+                <ul>
+                    <li><a href="https://aistudio.google.com/app/prompts/new_chat" target="_blank">Gemini Studio</a></li>
+                    <li>Przejdź do sekcji <a href="https://aistudio.google.com/app/apikey" target="_blank">API Keys</a></li>
+                    <li>Wygeneruj nowy klucz API</li>
+                </ul>
+            </li>
+            <li><b>Testowanie API w terminalu (curl)</b>
+                <pre><code>curl "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=YOUR_API_KEY" \
+  -H 'Content-Type: application/json' \
+  -X POST \
+  -d '{
+    "contents": [
+      {
+        "parts": [
+          {
+            "text": "Wytłumacz jak działa LLM w kilku słowach?"
+          }
+        ]
+      }
+    ]
+  }'</code></pre>
+                <div class="tip">Bezpośrednie testowanie API przez terminal pozwala na szybką weryfikację działania interfejsu bez pisania kodu.</div>
+            </li>
+            <li><b>Utworzenie i aktywacja virtual env</b>
+                <pre><code>python -m venv venv
+# Windows
+venv\Scripts\activate
+# Linux/Mac
+source venv/bin/activate</code></pre>
+                <div class="tip">Wirtualne środowisko pozwala na izolację zależności projektu od innych projektów Pythona.</div>
+            </li>
+            <li><b>Utworzenie pliku .env</b>
+                <pre><code>GEMINI_API_KEY=TU_WSTAW_SWÓJ_KLUCZ_API</code></pre>
+                <div class="tip">Plik .env służy do przechowywania zmiennych środowiskowych, takich jak klucze API.</div>
+            </li>
+            <li><b>Utworzenie pliku requirements.txt</b>
+                <pre><code>python-dotenv
+google-genai</code></pre>
+            </li>
+            <li><b>Utworzenie pliku .gitignore</b>
+                <pre><code>venv/
+.env
+__pycache__/
+*.pyc</code></pre>
+                <div class="tip">Plik .gitignore określa, które pliki i katalogi Git powinien ignorować podczas śledzenia zmian.</div>
+            </li>
+            <li><b>Weryfikacja instalacji Git i aktywacja</b>
+                <pre><code>git --version
+git config --global user.name "Karim Sylla"
+git config --global user.email "karim.sylla@gmail.com"
+git init
+git add .
+git commit -m "Inicjalizacja projektu"</code></pre>
+            </li>
+            <li><b>Instalacja zależności</b>
+                <pre><code>pip install -r requirements.txt</code></pre>
+            </li>
+            <li><b>Dokumentacja Gemini API</b>
+                <ul>
+                    <li><a href="https://ai.google.dev/gemini-api/docs/quickstart" target="_blank">Przewodnik szybkiego startu</a></li>
+                    <li><a href="https://ai.google.dev/gemini-api/docs/text-generation" target="_blank">Dokumentacja generowania tekstu</a></li>
+                </ul>
+            </li>
+        </ol>
+        <h2>Aplikacja terminalowa (app_terminal.py)</h2>
+        <p>Aplikacje terminalowe są doskonałym punktem wyjścia do testowania API bez konieczności budowania złożonego interfejsu użytkownika. Pozwalają na szybkie eksperymenty i weryfikację działania API przed przejściem do bardziej złożonych implementacji. Poniższy kod stanowi najprostszy przykład komunikacji z API Gemini.</p>
+        <pre><code>import os
+from dotenv import load_dotenv
+from google import genai
+
+# Załadowanie zmiennych środowiskowych z pliku .env
+load_dotenv()
+
+# Pobranie klucza API z zmiennych środowiskowych
+api_key = os.getenv("GEMINI_API_KEY")
+
+# Inicjalizacja klienta Gemini
+client = genai.Client(api_key=api_key)
+
+# Generowanie odpowiedzi
+response = client.models.generate_content(
+    model="gemini-2.0-flash", 
+    contents="Explain how AI works in a few words"
+)
+
+# Wyświetlenie odpowiedzi
+print(response.text)
+</code></pre>
+        <h3>Struktura projektu na tym etapie</h3>
+        <pre><code>gemini_projekt/
+├── gemini_api.py       # Moduł z funkcją API
+├── app_terminal.py     # Prosta aplikacja terminalowa
+├── .env                # Plik z kluczem API
+└── requirements.txt    # Wymagane zależności
+</code></pre>
+        <h2>Co dalej?</h2>
+        <p>Następnym krokiem będzie utworzenie modułu API Gemini, który posłuży jako wspólna warstwa komunikacji z API dla wszystkich naszych aplikacji. Przejdź do <a href="gemini-api-module.html">modułu API</a>, aby poznać szczegóły implementacji funkcji obsługującej Gemini API.</p>
+        <p>Po opanowaniu podstaw komunikacji z API, zajmiemy się budowaniem aplikacji desktopowych, które zapewnią bardziej przyjazny interfejs użytkownika do interakcji z modelem Gemini. Przejdź do <a href="aplikacje-desktopowe.html">aplikacji desktopowych</a>, aby dowiedzieć się, jak tworzyć aplikacje GUI przy użyciu Tkinter i PySide6.</p>
+    </main>
+    <footer>
+        <div>© 2025 Gemini Projekt. Wszelkie prawa zastrzeżone.</div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplikacja Flask | Gemini Projekt</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="main-nav">
+        <div class="logo">Gemini Projekt</div>
+        <ul>
+            <li><a href="index.html">Wprowadzenie</a></li>
+            <li><a href="gemini-api-module.html">Moduł API Gemini</a></li>
+            <li><a href="aplikacje-desktopowe.html">Aplikacje Desktopowe</a></li>
+            <li><a href="aplikacja-streamlit.html">Aplikacja Streamlit</a></li>
+            <li><a href="aplikacja-flask.html" class="active">Aplikacja Flask</a></li>
+        </ul>
+    </nav>
+    <main class="content">
+        <h1>Aplikacja Flask</h1>
+        <p>Flask to lekki, ale potężny framework webowy dla Pythona, który umożliwia tworzenie pełnoprawnych aplikacji internetowych. Pozwala na tworzenie profesjonalnych interfejsów użytkownika, zarządzanie sesjami, integrację z bazami danych i implementację API RESTful.</p>
+        <h2>Przygotowanie środowiska do aplikacji Flask</h2>
+        <ol>
+            <li>Dodaj <code>flask</code> do <code>requirements.txt</code> lub użyj:
+                <pre><code>echo "flask" >> requirements.txt
+pip install -r requirements.txt</code></pre>
+            </li>
+            <li>Utwórz strukturę katalogów:
+                <pre><code>mkdir -p templates static/css static/js</code></pre>
+            </li>
+        </ol>
+        <h2>Kod aplikacji Flask (flask_app.py)</h2>
+        <pre><code>from flask import Flask, render_template, request, jsonify
+from gemini_api import generate_response
+
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/generate', methods=['POST'])
+def generate():
+    data = request.json
+    user_prompt = data.get('prompt', '')
+    system_prompt = data.get('system_prompt', '')
+    temperature = float(data.get('temperature', 0.7))
+    max_tokens = int(data.get('max_tokens', 1024))
+    if user_prompt:
+        response_text = generate_response(
+            prompt=user_prompt,
+            system_prompt=system_prompt,
+            temperature=temperature,
+            max_tokens=max_tokens
+        )
+        return jsonify({'response': response_text})
+    else:
+        return jsonify({'error': 'Brak zapytania.'}), 400
+
+if __name__ == '__main__':
+    app.run(debug=True)
+</code></pre>
+        <h2>Szablon HTML (templates/index.html)</h2>
+        <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="pl"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;Gemini API - Aplikacja Flask&lt;/title&gt;
+    &lt;style&gt;
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .container { display: flex; flex-direction: column; gap: 15px; }
+        label { font-weight: bold; }
+        textarea { width: 100%; padding: 8px; }
+        button { padding: 10px; background-color: #4285f4; color: white; border: none; cursor: pointer; }
+        #result { margin-top: 20px; padding: 15px; border: 1px solid #ddd; min-height: 200px; }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Gemini API Demo&lt;/h1&gt;
+    &lt;div class="container"&gt;
+        &lt;div&gt;
+            &lt;label for="temperature"&gt;Temperatura:&lt;/label&gt;
+            &lt;input type="range" id="temperature" min="0" max="1" step="0.1" value="0.7"&gt;
+            &lt;span id="temperatureValue"&gt;0.7&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+            &lt;label for="maxTokens"&gt;Maksymalna liczba tokenów:&lt;/label&gt;
+            &lt;input type="range" id="maxTokens" min="100" max="2048" step="50" value="1024"&gt;
+            &lt;span id="maxTokensValue"&gt;1024&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+            &lt;label for="systemPrompt"&gt;Tekst systemowy:&lt;/label&gt;
+            &lt;textarea id="systemPrompt" rows="3"&gt;Jesteś pomocnym asystentem AI.&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+            &lt;label for="userPrompt"&gt;Wpisz swoje zapytanie:&lt;/label&gt;
+            &lt;textarea id="userPrompt" rows="5"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;button id="generateBtn"&gt;Generuj odpowiedź&lt;/button&gt;
+        &lt;div&gt;
+            &lt;h3&gt;Odpowiedź:&lt;/h3&gt;
+            &lt;div id="result"&gt;&lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;script&gt;
+        document.getElementById('temperature').addEventListener('input', function() {
+            document.getElementById('temperatureValue').textContent = this.value;
+        });
+        document.getElementById('maxTokens').addEventListener('input', function() {
+            document.getElementById('maxTokensValue').textContent = this.value;
+        });
+        document.getElementById('generateBtn').addEventListener('click', async function() {
+            const userPrompt = document.getElementById('userPrompt').value;
+            const systemPrompt = document.getElementById('systemPrompt').value;
+            const temperature = document.getElementById('temperature').value;
+            const maxTokens = document.getElementById('maxTokens').value;
+            const resultDiv = document.getElementById('result');
+            if (!userPrompt) {
+                resultDiv.textContent = 'Proszę wprowadzić zapytanie.';
+                return;
+            }
+            resultDiv.textContent = 'Generowanie odpowiedzi...';
+            try {
+                const response = await fetch('/generate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        prompt: userPrompt,
+                        system_prompt: systemPrompt,
+                        temperature: temperature,
+                        max_tokens: maxTokens
+                    }),
+                });
+                const data = await response.json();
+                if (data.error) {
+                    resultDiv.textContent = `Błąd: ${data.error}`;
+                } else {
+                    resultDiv.textContent = data.response;
+                }
+            } catch (error) {
+                resultDiv.textContent = `Błąd: ${error.message}`;
+            }
+        });
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+        <h2>Struktura katalogów dla aplikacji Flask</h2>
+        <pre><code>gemini_projekt/
+├── gemini_api.py                # Wspólny moduł API
+├── flask_app.py                 # Główny kod aplikacji Flask
+├── templates/                   # Katalog szablonów HTML
+│   └── index.html               # Strona główna aplikacji
+├── static/                      # Katalog dla plików statycznych
+│   ├── css/                     # Style CSS
+│   └── js/                      # Skrypty JavaScript
+├── .env                         # Plik z kluczem API
+├── .gitignore                   # Ignorowane pliki w Git
+└── requirements.txt             # Wymagane zależności
+</code></pre>
+        <h2>Uruchamianie aplikacji</h2>
+        <pre><code>python flask_app.py</code></pre>
+        <p>Aplikacja będzie dostępna w przeglądarce pod adresem <b>http://localhost:5000</b>.</p>
+        <h2>Zalety aplikacji Flask</h2>
+        <ul>
+            <li>Pełna kontrola nad architekturą i interfejsem</li>
+            <li>Skalowalność</li>
+            <li>RESTful API</li>
+            <li>Integracja z bazami danych</li>
+            <li>Możliwość budowania zaawansowanych aplikacji produkcyjnych</li>
+        </ul>
+        <h2>Podsumowanie</h2>
+        <p>Gratulacje! Ukończyłeś pełny cykl tworzenia aplikacji wykorzystujących modele językowe Gemini. Możesz teraz eksperymentować z własnymi pomysłami, łącząc poznane techniki z innymi technologiami i bibliotekami.</p>
+    </main>
+    <footer>
+        <div>© 2025 Gemini Projekt. Wszelkie prawa zastrzeżone.</div>
+    </footer>
+</body>
+</html>
