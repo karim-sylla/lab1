@@ -41,6 +41,8 @@ Celem tego projektu jest zdobycie praktycznych umiejętności budowania aplikacj
      }'
    ```
    
+   > Uwaga: Na Windows polecenie curl należy uruchomić w Git Bash (a nie w domyślnym PowerShell). W Visual Studio Code można łatwo otworzyć terminal Git Bash wybierając go z rozwijanej listy w oknie terminala.
+   
    > Bezpośrednie testowanie API przez terminal pozwala na szybką weryfikację działania interfejsu bez pisania kodu. To dobry sposób na zrozumienie struktury żądań i odpowiedzi.
 
 5. **Utworzenie i aktywacja virtual env**

@@ -119,7 +119,100 @@ Użyj funkcji generate_response() z gemini_api.py</code></pre>
         <p>Przykładowy kod Tkinter:</p>
 
         <pre><code class="language-python">import tkinter as tk
-// ...existing code...
+from tkinter import ttk
+from gemini_api import generate_response
+
+def create_tkinter_app():
+    def on_generate():
+        # Pobieranie wartości z interfejsu
+        prompt = prompt_text.get("1.0", tk.END).strip()
+        system = system_text.get("1.0", tk.END).strip()
+        temperature = temp_slider.get()
+        max_tokens = int(token_slider.get())
+        
+        if prompt:
+            # Wyświetlenie informacji o generowaniu
+            result_text.delete("1.0", tk.END)
+            result_text.insert("1.0", "Generowanie odpowiedzi...")
+            root.update()
+            
+            # Generowanie odpowiedzi
+            response = generate_response(
+                prompt=prompt,
+                system_prompt=system,
+                temperature=temperature,
+                max_tokens=max_tokens
+            )
+            
+            # Wyświetlenie odpowiedzi
+            result_text.delete("1.0", tk.END)
+            result_text.insert("1.0", response)
+        else:
+            result_text.delete("1.0", tk.END)
+            result_text.insert("1.0", "Proszę wprowadzić zapytanie.")
+    
+    # Utworzenie głównego okna
+    root = tk.Tk()
+    root.title("Gemini API - Aplikacja Tkinter")
+    root.geometry("800x600")
+    
+    # Tworzenie kontrolek
+    frame = ttk.Frame(root, padding="10")
+    frame.pack(fill=tk.BOTH, expand=True)
+    
+    # Suwak temperatury
+    ttk.Label(frame, text="Temperatura:").grid(row=0, column=0, sticky=tk.W)
+    temp_slider = ttk.Scale(frame, from_=0.0, to=1.0, orient=tk.HORIZONTAL, length=200)
+    temp_slider.set(0.7)
+    temp_slider.grid(row=0, column=1, sticky=tk.W)
+    temp_value = ttk.Label(frame, text="0.7")
+    temp_value.grid(row=0, column=2, sticky=tk.W)
+    
+    # Aktualizacja etykiety temperatury
+    def update_temp_label(event):
+        temp_value.config(text=f"{temp_slider.get():.1f}")
+    
+    temp_slider.bind("<Motion>", update_temp_label)
+    
+    # Suwak liczby tokenów
+    ttk.Label(frame, text="Maksymalna liczba tokenów:").grid(row=1, column=0, sticky=tk.W)
+    token_slider = ttk.Scale(frame, from_=100, to=2048, orient=tk.HORIZONTAL, length=200)
+    token_slider.set(1024)
+    token_slider.grid(row=1, column=1, sticky=tk.W)
+    token_value = ttk.Label(frame, text="1024")
+    token_value.grid(row=1, column=2, sticky=tk.W)
+    
+    # Aktualizacja etykiety tokenów
+    def update_token_label(event):
+        token_value.config(text=str(int(token_slider.get())))
+    
+    token_slider.bind("<Motion>", update_token_label)
+    
+    # Pole na wpisanie tekstu systemowego
+    ttk.Label(frame, text="Tekst systemowy:").grid(row=2, column=0, sticky=tk.W)
+    system_text = tk.Text(frame, height=3, width=70)
+    system_text.grid(row=2, column=1, columnspan=2, pady=5)
+    system_text.insert("1.0", "Jesteś pomocnym asystentem AI.")
+    
+    # Pole na wpisanie zapytania
+    ttk.Label(frame, text="Zapytanie:").grid(row=3, column=0, sticky=tk.W)
+    prompt_text = tk.Text(frame, height=5, width=70)
+    prompt_text.grid(row=3, column=1, columnspan=2, pady=5)
+    
+    # Przycisk zatwierdzenia
+    generate_button = ttk.Button(frame, text="Generuj odpowiedź", command=on_generate)
+    generate_button.grid(row=4, column=1, pady=10)
+    
+    # Pole z wynikiem od LLM
+    ttk.Label(frame, text="Odpowiedź:").grid(row=5, column=0, sticky=tk.NW)
+    result_text = tk.Text(frame, height=15, width=70)
+    result_text.grid(row=5, column=1, columnspan=2, pady=5)
+    
+    return root
+
+if __name__ == "__main__":
+    app = create_tkinter_app()
+    app.mainloop()
 </code></pre>
 
         <h3>Uruchamianie aplikacji</h3>
@@ -333,3 +426,4 @@ git commit -m "Implementacja aplikacji desktopowej PySide6"</code></pre>
     </script>
 </body>
 </html>
+``` 
