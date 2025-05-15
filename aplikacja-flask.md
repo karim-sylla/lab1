@@ -5,6 +5,7 @@ Flask to lekki, ale potężny framework webowy dla Pythona, który umożliwia tw
 ## Przygotowanie środowiska do aplikacji Flask
 
 1. **Aktualizacja pliku requirements.txt**
+   Możesz dodać wartość "flask" do pliku `requirements.txt` ręcznie lub wykonać poniższą komendę w terminalu (bash):
    ```bash
    echo "flask" >> requirements.txt
    pip install -r requirements.txt

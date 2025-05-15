@@ -82,6 +82,7 @@ Celem tego projektu jest zdobycie praktycznych umiejętności budowania aplikacj
    > Git pozwala na śledzenie zmian w projekcie, wersjonowanie kodu i łatwą współpracę. Konfiguracja nazwy użytkownika i adresu email jest wymagana przed pierwszym commitem, by właściwie identyfikować autora zmian.
 
 9. **Utworzenie pliku .gitignore**
+   Możesz dodać poniższe wartości do pliku `.gitignore` ręcznie lub wykonać poniższe komendy w terminalu (bash):
    ```bash
    echo "venv/" >> .gitignore
    echo ".env" >> .gitignore

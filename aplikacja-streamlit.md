@@ -5,15 +5,10 @@ Streamlit to nowoczesna biblioteka Pythona zaprojektowana specjalnie do tworzeni
 ## Przygotowanie środowiska do aplikacji Streamlit
 
 1. **Aktualizacja pliku requirements.txt**
+   Możesz dodać  wartość "streamlit" do pliku `requirements.txt` ręcznie lub wykonać poniższą komendę w terminalu (bash):
    ```bash
    echo "streamlit" >> requirements.txt
    pip install -r requirements.txt
-   ```
-
-2. **Upewnij się, że moduł gemini_api.py jest gotowy**
-   ```bash
-   # Jeśli potrzeba, wprowadź poprawki w gemini_api.py
-   git status
    ```
 
 ## Kod aplikacji (streamlit_app.py)

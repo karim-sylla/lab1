@@ -13,19 +13,14 @@ Aplikacje desktopowe oferują przyjazny dla użytkownika interfejs graficzny, u�
 | Wydajność | Dobra dla prostych aplikacji | Lepsza dla złożonych aplikacji |
 | Stylizacja | Podstawowa | Zaawansowana (CSS-podobna) |
 
-## Przygotowanie środowiska
 
-1. **Tkinter** jest już wbudowany w standardową bibliotekę Pythona, więc nie wymaga dodatkowej instalacji.
-
-2. **Dla PySide6 - aktualizacja pliku requirements.txt**
-   ```bash
-   echo "pyside6" >> requirements.txt
-   pip install -r requirements.txt
-   ```
 
 ## Aplikacja Tkinter (tkinter_app.py)
 
 Tkinter to standardowa biblioteka do tworzenia interfejsów graficznych w Pythonie. Jest dostępna w każdej instalacji Pythona bez potrzeby instalowania dodatkowych pakietów, co czyni ją doskonałym wyborem dla prostych aplikacji i szybkiego prototypowania.
+
+** Przygotowanie środowiska**
+Tkinter jest już wbudowany w standardową bibliotekę Pythona, więc nie wymaga dodatkowej instalacji.
 
 Zamiast ręcznego pisania kodu, możesz wykorzystać GitHub Copilot. Po zainstalowaniu rozszerzenia w VSC, umieść poniższy prompt i pozwól Copilotowi wygenerować kod:
 
@@ -138,6 +133,12 @@ if __name__ == "__main__":
     app = create_tkinter_app()
     app.mainloop()
 ```
+## Uruchamianie aplikacji
+
+Aby uruchomić aplikację Tkinter:
+```bash
+python tkinter_app.py
+```
 
 Po zaimplementowaniu aplikacji Tkinter, zapisz zmiany w repozytorium:
 
@@ -149,6 +150,13 @@ git commit -m "Implementacja aplikacji desktopowej Tkinter"
 ## Aplikacja PySide6 (pyside_app.py)
 
 PySide6 jest oficjalnym wiązaniem Pythona dla Qt, popularnego frameworka do tworzenia aplikacji wieloplatformowych. W porównaniu do Tkinter, PySide6 oferuje bardziej nowoczesny wygląd, zaawansowane komponenty i lepszą obsługę stylów. Jest idealny do tworzenia profesjonalnych aplikacji desktopowych.
+
+**Przygotowanie środowiska dla PySide6:**
+Możesz dodać poniższą wartość "pyside6" do pliku `requirements.txt` ręcznie lub wykonać poniższą komendę w terminalu (bash):
+```bash
+echo "pyside6" >> requirements.txt
+pip install -r requirements.txt
+```
 
 Podobnie, możesz wykorzystać GitHub Copilot do wygenerowania kodu w PySide6:
 
@@ -289,25 +297,12 @@ git commit -m "Implementacja aplikacji desktopowej PySide6"
 
 ## Uruchamianie aplikacji
 
-Aby uruchomić aplikację Tkinter:
-```bash
-python tkinter_app.py
-```
 
 Aby uruchomić aplikację PySide6:
 ```bash
 python pyside_app.py
 ```
 
-## Różnice między Tkinter i PySide6
-
-| Cecha | Tkinter | PySide6 |
-|-------|---------|---------|
-| Biblioteka | Wbudowana w Pythona | Wymaga instalacji |
-| Wygląd | Prosty, natywny dla OS | Nowoczesny, jednolity |
-| Elastyczność | Podstawowa | Zaawansowana |
-| Złożoność | Niska | Średnia |
-| Dokumentacja | Dobra | Bardzo dobra |
 
 Obie aplikacje mają identyczną funkcjonalność, ale różnią się strukturą kodu i stylem interfejsu.
 
