@@ -5,9 +5,8 @@ Streamlit to nowoczesna biblioteka Pythona zaprojektowana specjalnie do tworzeni
 ## Przygotowanie środowiska do aplikacji Streamlit
 
 1. **Aktualizacja pliku requirements.txt**
-   Możesz dodać  wartość "streamlit" do pliku `requirements.txt` ręcznie lub wykonać poniższą komendę w terminalu (bash):
+   Możesz dodać  wartość "streamlit" do pliku `requirements.txt` i zainstalować:
    ```bash
-   echo "streamlit" >> requirements.txt
    pip install -r requirements.txt
    ```
 

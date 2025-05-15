@@ -152,9 +152,8 @@ git commit -m "Implementacja aplikacji desktopowej Tkinter"
 PySide6 jest oficjalnym wiązaniem Pythona dla Qt, popularnego frameworka do tworzenia aplikacji wieloplatformowych. W porównaniu do Tkinter, PySide6 oferuje bardziej nowoczesny wygląd, zaawansowane komponenty i lepszą obsługę stylów. Jest idealny do tworzenia profesjonalnych aplikacji desktopowych.
 
 **Przygotowanie środowiska dla PySide6:**
-Możesz dodać poniższą wartość "pyside6" do pliku `requirements.txt` ręcznie lub wykonać poniższą komendę w terminalu (bash):
+Możesz dodać poniższą wartość "pyside6" do pliku `requirements.txt`. A następnie zainstaluj 
 ```bash
-echo "pyside6" >> requirements.txt
 pip install -r requirements.txt
 ```
 

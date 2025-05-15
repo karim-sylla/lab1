@@ -74,7 +74,6 @@ Celem tego projektu jest zdobycie praktycznych umiejętności budowania aplikacj
 8. **Utworzenie pliku .gitignore**
    Koniecznie utwórz  plik `.gitignore`:
    
-   **Albo ręcznie:**
    - Utwórz nowy plik tekstowy o nazwie `.gitignore` w głównym katalogu projektu
    - Dodaj do niego następujące linie:
      ```
@@ -84,14 +83,6 @@ Celem tego projektu jest zdobycie praktycznych umiejętności budowania aplikacj
      *.pyc
      ```
    
-   **Albo za pomocą komend terminala (bash):**
-   ```bash
-   touch .gitignore
-   echo "venv/" >> .gitignore
-   echo ".env" >> .gitignore
-   echo "__pycache__/" >> .gitignore
-   echo "*.pyc" >> .gitignore
-   ```
    
    > Plik .gitignore określa, które pliki i katalogi Git powinien ignorować podczas śledzenia zmian. Zwykle pomijamy pliki tymczasowe, katalogi środowiska wirtualnego, pliki zawierające wrażliwe dane (jak .env) oraz pliki specyficzne dla IDE, ponieważ nie są one istotne dla projektu i mogą zawierać dane specyficzne dla danego komputera.
 
