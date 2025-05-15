@@ -65,3 +65,7 @@ Kod obsługuje dwa rodzaje zapytań:
 - Bez instrukcji systemowej (standardowe zapytanie)
 
 Moduł wykorzystuje bibliotekę `dotenv` do wczytywania zmiennych środowiskowych i obsługuje wyjątki, zwracając komunikat błędu w przypadku problemów z generowaniem odpowiedzi.
+
+## Co dalej?
+
+Teraz, gdy mamy gotowy moduł do komunikacji z Gemini API, możemy przejść do tworzenia aplikacji z interfejsem graficznym. Przejdź do [aplikacji desktopowych](aplikacje-desktopowe.md), aby nauczyć się implementować interfejsy użytkownika przy użyciu Tkinter i PySide6.

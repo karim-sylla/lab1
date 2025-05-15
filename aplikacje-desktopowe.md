@@ -317,3 +317,7 @@ python pyside_app.py
 | Dokumentacja | Dobra | Bardzo dobra |
 
 Obie aplikacje mają identyczną funkcjonalność, ale różnią się strukturą kodu i stylem interfejsu.
+
+## Co dalej?
+
+Teraz, gdy poznaliśmy tworzenie aplikacji desktopowych, przejdźmy do budowania nowoczesnych interfejsów webowych przy użyciu Streamlit. Kontynuuj naukę w [następnej części](aplikacja-streamlit.md), aby dowiedzieć się, jak łatwo tworzyć interaktywne aplikacje webowe.

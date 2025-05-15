@@ -40,6 +40,8 @@ Celem tego projektu jest zdobycie praktycznych umiejętności budowania aplikacj
        ]
      }'
    ```
+   
+   > Bezpośrednie testowanie API przez terminal pozwala na szybką weryfikację działania interfejsu bez pisania kodu. To dobry sposób na zrozumienie struktury żądań i odpowiedzi.
 
 5. **Utworzenie i aktywacja virtual env**
    ```bash
@@ -49,11 +51,15 @@ Celem tego projektu jest zdobycie praktycznych umiejętności budowania aplikacj
    # Linux/Mac
    source venv/bin/activate
    ```
+   
+   > Wirtualne środowisko (virtual environment) pozwala na izolację zależności projektu od innych projektów Pythona na tym samym komputerze. Zapewnia to spójność wersji bibliotek i eliminuje konflikty między różnymi projektami, co jest kluczowe dla stabilności aplikacji.
 
 6. **Utworzenie pliku .env**
    ```
    GEMINI_API_KEY=TU_WSTAW_SWÓJ_KLUCZ_API
    ```
+   
+   > Plik .env służy do przechowywania zmiennych środowiskowych, takich jak klucze API, które nie powinny być umieszczane bezpośrednio w kodzie. To praktyka zwiększająca bezpieczeństwo aplikacji, ponieważ wrażliwe dane nie są przechowywane w repozytorium kodu.
 
 7. **Utworzenie pliku requirements.txt**
    ```
@@ -66,23 +72,24 @@ Celem tego projektu jest zdobycie praktycznych umiejętności budowania aplikacj
 8. **Weryfikacja instalacji Git i aktywacja**
    ```bash
    git --version
+   git config --global user.name "Karim Sylla"
+   git config --global user.email "karim.sylla@gmail.com"
    git init
    git add .
    git commit -m "Inicjalizacja projektu"
    ```
+   
+   > Git pozwala na śledzenie zmian w projekcie, wersjonowanie kodu i łatwą współpracę. Konfiguracja nazwy użytkownika i adresu email jest wymagana przed pierwszym commitem, by właściwie identyfikować autora zmian.
 
 9. **Utworzenie pliku .gitignore**
    ```bash
    echo "venv/" >> .gitignore
-   echo "__pycache__/" >> .gitignore
-   echo "*.pyc" >> .gitignore
    echo ".env" >> .gitignore
-   echo ".DS_Store" >> .gitignore
-   echo ".idea/" >> .gitignore
-   echo ".vscode/" >> .gitignore
    git add .gitignore
    git commit -m "Dodanie pliku .gitignore"
    ```
+   
+   > Plik .gitignore określa, które pliki i katalogi Git powinien ignorować podczas śledzenia zmian. Zwykle pomijamy pliki tymczasowe, katalogi środowiska wirtualnego, pliki zawierające wrażliwe dane (jak .env) oraz pliki specyficzne dla IDE, ponieważ nie są one istotne dla projektu i mogą zawierać dane specyficzne dla danego komputera.
 
 10. **Instalacja zależności**
    ```bash
@@ -144,3 +151,9 @@ gemini_projekt/
 ├── .env                # Plik z kluczem API
 └── requirements.txt    # Wymagane zależności
 ```
+
+## Co dalej?
+
+Następnym krokiem będzie utworzenie modułu API Gemini, który posłuży jako wspólna warstwa komunikacji z API dla wszystkich naszych aplikacji. Przejdź do [modułu API](gemini-api-module.md), aby poznać szczegóły implementacji funkcji obsługującej Gemini API.
+
+Po opanowaniu podstaw komunikacji z API, zajmiemy się budowaniem aplikacji desktopowych, które zapewnią bardziej przyjazny interfejs użytkownika do interakcji z modelem Gemini. Przejdź do [aplikacji desktopowych](aplikacje-desktopowe.md), aby dowiedzieć się, jak tworzyć aplikacje GUI przy użyciu Tkinter i PySide6.

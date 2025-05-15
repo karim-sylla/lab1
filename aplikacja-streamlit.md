@@ -110,3 +110,7 @@ gemini_projekt/
 ```
 
 Streamlit jest idealnym narzędziem do szybkiego prototypowania aplikacji AI, tworzenia dashboardów i demonstracji możliwości modeli językowych.
+
+## Co dalej?
+
+Po zapoznaniu się z tworzeniem aplikacji w Streamlit, czas na poznanie bardziej zaawansowanego frameworka webowego - Flask. Przejdź do [ostatniej części](aplikacja-flask.md), aby nauczyć się budować profesjonalne aplikacje internetowe z pełną kontrolą nad architekturą i interfejsem.

@@ -208,3 +208,14 @@ git commit -m "Implementacja aplikacji webowej Flask"
 3. **RESTful API** - tworzenie API dla innych aplikacji
 4. **Integracja z bazami danych** - łatwa współpraca z bazami (np. SQLAlchemy)
 5. **Złożone aplikacje** - możliwość budowania zaawansowanych aplikacji produkcyjnych
+
+## Podsumowanie
+
+Gratulacje! Ukończyłeś pełny cykl tworzenia aplikacji wykorzystujących modele językowe Gemini. Podczas tego laboratoriom nauczyłeś się:
+
+1. Używać API Gemini poprzez [prostą aplikację terminalową](wprowadzenie-terminal.md)
+2. Tworzyć aplikacje desktopowe przy użyciu [Tkinter i PySide6](aplikacje-desktopowe.md)
+3. Budować interaktywne interfejsy webowe z [Streamlit](aplikacja-streamlit.md)
+4. Implementować zaawansowane aplikacje webowe z Flask
+
+Te umiejętności dają Ci solidne podstawy do tworzenia własnych narzędzi i rozwiązań opartych na sztucznej inteligencji. Możesz teraz eksperymentować z własnymi pomysłami, łącząc poznane techniki z innymi technologiami i bibliotekami.
