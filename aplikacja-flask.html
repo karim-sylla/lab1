@@ -89,18 +89,34 @@
     </nav>
     <main class="content">
         <h1>Aplikacja Flask</h1>
-        <p>Flask to lekki, ale potężny framework webowy dla Pythona, który umożliwia tworzenie pełnoprawnych aplikacji internetowych. Pozwala na tworzenie profesjonalnych interfejsów użytkownika, zarządzanie sesjami, integrację z bazami danych i implementację API RESTful.</p>
+        <p>Flask to lekki, ale potężny framework webowy dla Pythona, który umożliwia tworzenie pełnoprawnych aplikacji internetowych. W przeciwieństwie do Streamlit, który jest bardziej specjalizowany pod kątem aplikacji data science, Flask daje pełną kontrolę nad architekturą, wyglądem i zachowaniem aplikacji. Pozwala na tworzenie profesjonalnych interfejsów użytkownika, zarządzanie sesjami, integrację z bazami danych i implementację API RESTful. Jest idealny gdy potrzebujesz większej elastyczności lub planujesz rozwijać aplikację w kierunku produkcyjnym.</p>
+        
         <h2>Przygotowanie środowiska do aplikacji Flask</h2>
         <ol>
-            <li>Dodaj <code>flask</code> do <code>requirements.txt</code> lub użyj:
+            <li>
+                <strong>Aktualizacja pliku requirements.txt</strong><br>
+                Możesz dodać wartość "flask" do pliku <code>requirements.txt</code> ręcznie lub wykonać poniższą komendę w terminalu (bash):
                 <pre><code class="language-bash">echo "flask" >> requirements.txt
 pip install -r requirements.txt</code></pre>
             </li>
-            <li>Utwórz strukturę katalogów:
+            <li>
+                <strong>Utworzenie struktury katalogów</strong>
                 <pre><code class="language-bash">mkdir -p templates static/css static/js</code></pre>
             </li>
         </ol>
+
         <h2>Kod aplikacji Flask (flask_app.py)</h2>
+        <p>Możesz wykorzystać GitHub Copilot do wygenerowania kodu aplikacji Flask:</p>
+        <blockquote>
+            <p>Stwórz aplikację Flask do komunikacji z Gemini API z:</p>
+            <ul>
+                <li>back-end: endpoint /generate obsługujący zapytania POST</li>
+                <li>front-end: strona HTML z suwakami (temperatura, liczba tokenów), polami tekstowymi (instrukcja systemowa, zapytanie) i przyciskiem</li>
+                <li>komunikacja front-back przez fetch API</li>
+            </ul>
+            <p>Wykorzystaj funkcję generate_response() z gemini_api.py</p>
+        </blockquote>
+        <p>Przykładowy kod:</p>
         <pre><code class="language-python">from flask import Flask, render_template, request, jsonify
 from gemini_api import generate_response
 
@@ -131,6 +147,7 @@ def generate():
 if __name__ == '__main__':
     app.run(debug=True)
 </code></pre>
+
         <h2>Szablon HTML (templates/index.html)</h2>
         <pre><code class="language-html">&lt;!DOCTYPE html&gt;
 &lt;html lang="pl"&gt;
@@ -219,6 +236,7 @@ if __name__ == '__main__':
 &lt;/body&gt;
 &lt;/html&gt;
 </code></pre>
+
         <h2>Struktura katalogów dla aplikacji Flask</h2>
         <pre><code class="language-plaintext">gemini_projekt/
 ├── gemini_api.py                # Wspólny moduł API
@@ -232,19 +250,33 @@ if __name__ == '__main__':
 ├── .gitignore                   # Ignorowane pliki w Git
 └── requirements.txt             # Wymagane zależności
 </code></pre>
+
         <h2>Uruchamianie aplikacji</h2>
         <pre><code class="language-bash">python flask_app.py</code></pre>
         <p>Aplikacja będzie dostępna w przeglądarce pod adresem <b>http://localhost:5000</b>.</p>
+        
+        <p>Po zaimplementowaniu aplikacji Flask, zapisz zmiany w repozytorium:</p>
+        <pre><code class="language-bash">git add flask_app.py templates/ static/
+git commit -m "Implementacja aplikacji webowej Flask"</code></pre>
+
         <h2>Zalety aplikacji Flask</h2>
         <ul>
-            <li>Pełna kontrola nad architekturą i interfejsem</li>
-            <li>Skalowalność</li>
-            <li>RESTful API</li>
-            <li>Integracja z bazami danych</li>
-            <li>Możliwość budowania zaawansowanych aplikacji produkcyjnych</li>
+            <li><strong>Pełna kontrola</strong> - elastyczność w projektowaniu architektury i interfejsu</li>
+            <li><strong>Skalowalność</strong> - możliwość łatwego rozszerzania funkcjonalności</li>
+            <li><strong>RESTful API</strong> - tworzenie API dla innych aplikacji</li>
+            <li><strong>Integracja z bazami danych</strong> - łatwa współpraca z bazami (np. SQLAlchemy)</li>
+            <li><strong>Złożone aplikacje</strong> - możliwość budowania zaawansowanych aplikacji produkcyjnych</li>
         </ul>
+
         <h2>Podsumowanie</h2>
-        <p>Gratulacje! Ukończyłeś pełny cykl tworzenia aplikacji wykorzystujących modele językowe Gemini. Możesz teraz eksperymentować z własnymi pomysłami, łącząc poznane techniki z innymi technologiami i bibliotekami.</p>
+        <p>Gratulacje! Ukończyłeś pełny cykl tworzenia aplikacji wykorzystujących modele językowe Gemini. Podczas tego laboratoriom nauczyłeś się:</p>
+        <ol>
+            <li>Używać API Gemini poprzez <a href="wprowadzenie-terminal.html">prostą aplikację terminalową</a></li>
+            <li>Tworzyć aplikacje desktopowe przy użyciu <a href="aplikacje-desktopowe.html">Tkinter i PySide6</a></li>
+            <li>Budować interaktywne interfejsy webowe z <a href="aplikacja-streamlit.html">Streamlit</a></li>
+            <li>Implementować zaawansowane aplikacje webowe z Flask</li>
+        </ol>
+        <p>Te umiejętności dają Ci solidne podstawy do tworzenia własnych narzędzi i rozwiązań opartych na sztucznej inteligencji. Możesz teraz eksperymentować z własnymi pomysłami, łącząc poznane techniki z innymi technologiami i bibliotekami.</p>
     </main>
     <footer>
         <div>© 2025 Karim Sylla. karim.sylla@gmail.com. This project is open-source for educational purposes. Licensed under the MIT License.</div>
@@ -303,4 +335,3 @@ if __name__ == '__main__':
     </script>
 </body>
 </html>
-``` 

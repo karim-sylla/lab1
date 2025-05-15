@@ -145,28 +145,48 @@ source venv/bin/activate</code></pre>
 google-genai</code></pre>
             </li>
             <li><b>Utworzenie pliku .gitignore</b>
+                <p>Koniecznie utwórz plik <code>.gitignore</code>:</p>
+                
+                <p><b>Albo ręcznie:</b></p>
+                <ul>
+                    <li>Utwórz nowy plik tekstowy o nazwie <code>.gitignore</code> w głównym katalogu projektu</li>
+                    <li>Dodaj do niego następujące linie:</li>
+                </ul>
                 <pre><code class="language-plaintext">venv/
 .env
 __pycache__/
 *.pyc</code></pre>
-                <div class="tip">Plik .gitignore określa, które pliki i katalogi Git powinien ignorować podczas śledzenia zmian.</div>
+
+                <p><b>Albo za pomocą komend terminala (bash):</b></p>
+                <pre><code class="language-bash">touch .gitignore
+echo "venv/" >> .gitignore
+echo ".env" >> .gitignore
+echo "__pycache__/" >> .gitignore
+echo "*.pyc" >> .gitignore</code></pre>
+                <div class="tip">Plik .gitignore określa, które pliki i katalogi Git powinien ignorować podczas śledzenia zmian. Zwykle pomijamy pliki tymczasowe, katalogi środowiska wirtualnego, pliki zawierające wrażliwe dane (jak .env) oraz pliki specyficzne dla IDE, ponieważ nie są one istotne dla projektu i mogą zawierać dane specyficzne dla danego komputera.</div>
             </li>
             <li><b>Weryfikacja instalacji Git i aktywacja</b>
+                <p>Po utworzeniu pliku <code>.gitignore</code>, możemy przystąpić do inicjalizacji repozytorium Git. Najpierw warto sprawdzić, czy Git jest poprawnie zainstalowany, a następnie skonfigurować podstawowe informacje o użytkowniku. Te kroki są niezbędne przed rozpoczęciem śledzenia zmian w projekcie.</p>
                 <pre><code class="language-bash">git --version
 git config --global user.name "Karim Sylla"
 git config --global user.email "karim.sylla@gmail.com"
 git init
 git add .
 git commit -m "Inicjalizacja projektu"</code></pre>
+                <div class="tip">Git pozwala na śledzenie zmian w projekcie, wersjonowanie kodu i łatwą współpracę. Konfiguracja nazwy użytkownika i adresu email jest wymagana przed pierwszym commitem, by właściwie identyfikować autora zmian.</div>
             </li>
             <li><b>Instalacja zależności</b>
+                <p>Po inicjalizacji repozytorium Git, następnym krokiem jest instalacja wszystkich wymaganych bibliotek Python zdefiniowanych w pliku requirements.txt. Jest to niezbędne, aby nasza aplikacja miała dostęp do wszystkich potrzebnych narzędzi i interfejsów API.</p>
                 <pre><code class="language-bash">pip install -r requirements.txt</code></pre>
+                <div class="tip">Instalacja zależności z pliku requirements.txt zapewnia, że wszystkie wymagane biblioteki będą dostępne w odpowiednich wersjach. To ważny krok pozwalający na utrzymanie spójności środowiska i uniknięcie problemów z kompatybilnością między różnymi wersjami bibliotek.</div>
             </li>
             <li><b>Dokumentacja Gemini API</b>
+                <p>Przed rozpoczęciem programowania warto zapoznać się z oficjalną dokumentacją Gemini API, która zawiera szczegółowe informacje o dostępnych funkcjach, parametrach i przykładach użycia:</p>
                 <ul>
                     <li><a href="https://ai.google.dev/gemini-api/docs/quickstart" target="_blank">Przewodnik szybkiego startu</a></li>
                     <li><a href="https://ai.google.dev/gemini-api/docs/text-generation" target="_blank">Dokumentacja generowania tekstu</a></li>
                 </ul>
+                <div class="tip">Dokumentacja API jest podstawowym źródłem wiedzy dla programisty. Zawiera szczegółowe informacje o wszystkich dostępnych funkcjach, ich parametrach, wartościach zwracanych oraz przykładach użycia. Regularne odwoływanie się do dokumentacji pomaga w efektywnym wykorzystaniu możliwości API i uniknięciu typowych błędów.</div>
             </li>
         </ol>
         <h2>Aplikacja terminalowa (app_terminal.py)</h2>
@@ -261,4 +281,3 @@ print(response.text)
     </script>
 </body>
 </html>
-``` 

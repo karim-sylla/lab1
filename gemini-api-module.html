@@ -147,9 +147,21 @@ git commit -m "Dodanie modułu API Gemini"</code></pre>
         <h2>Wyjaśnienie kodu</h2>
         <ul>
             <li><b>init_client()</b> – inicjalizuje klienta Gemini API, wczytując klucz API z pliku <code>.env</code></li>
-            <li><b>generate_response()</b> – główna funkcja generująca odpowiedź z modelu Gemini, przyjmująca parametry: <code>prompt</code>, <code>system_prompt</code>, <code>temperature</code>, <code>max_tokens</code></li>
+            <li><b>generate_response()</b> – główna funkcja generująca odpowiedź z modelu Gemini, przyjmująca parametry:
+                <ul>
+                    <li><code>prompt</code> - zapytanie użytkownika</li>
+                    <li><code>system_prompt</code> - instrukcja systemowa (opcjonalna)</li>
+                    <li><code>temperature</code> - parametr losowości odpowiedzi (0.0-1.0)</li>
+                    <li><code>max_tokens</code> - maksymalna długość odpowiedzi</li>
+                </ul>
+            </li>
         </ul>
-        <p>Kod obsługuje dwa rodzaje zapytań: z instrukcją systemową i bez niej. Moduł wykorzystuje bibliotekę <code>dotenv</code> do wczytywania zmiennych środowiskowych i obsługuje wyjątki, zwracając komunikat błędu w przypadku problemów z generowaniem odpowiedzi.</p>
+        <p>Kod obsługuje dwa rodzaje zapytań:</p>
+        <ul>
+            <li>Z instrukcją systemową (<code>system_instruction</code>) - pozwala na określenie kontekstu lub instrukcji dla modelu</li>
+            <li>Bez instrukcji systemowej - standardowe zapytanie</li>
+        </ul>
+        <p>Moduł wykorzystuje bibliotekę <code>dotenv</code> do wczytywania zmiennych środowiskowych i obsługuje wyjątki, zwracając komunikat błędu w przypadku problemów z generowaniem odpowiedzi.</p>
         <h2>Co dalej?</h2>
         <p>Teraz, gdy mamy gotowy moduł do komunikacji z Gemini API, możemy przejść do tworzenia aplikacji z interfejsem graficznym. Przejdź do <a href="aplikacje-desktopowe.html">aplikacji desktopowych</a>, aby nauczyć się implementować interfejsy użytkownika przy użyciu Tkinter i PySide6.</p>
     </main>

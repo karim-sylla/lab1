@@ -6,11 +6,7 @@ Ten moduł zawiera funkcjonalność komunikacji z Google Gemini API, która jest
 
 1. Utwórz plik `gemini_api.py` w głównym folderze projektu
 2. Skopiuj poniższy kod do utworzonego pliku
-3. Zapisz zmiany w repozytorium:
-   ```bash
-   git add gemini_api.py
-   git commit -m "Dodanie modułu API Gemini"
-   ```
+
 
 ```python
 import os
@@ -58,7 +54,12 @@ def generate_response(prompt, system_prompt="", temperature=0.7, max_tokens=1024
     except Exception as e:
         return f"Błąd: {str(e)}"
 ```
-
+3. Zapisz zmiany w repozytorium:
+   ```bash
+   git add gemini_api.py
+   git commit -m "Dodanie modułu API Gemini"
+   ```
+   
 ## Wyjaśnienie kodu
 
 Moduł zawiera dwie główne funkcje:
