@@ -5,6 +5,76 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Moduł API Gemini | Gemini Projekt</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-okaidia.min.css">
+    <style>
+        /* Style dla przycisku kopiowania i wyrównania bloków kodu */
+        pre {
+            position: relative;
+            padding: 1.2em 1em;
+            margin: 1em 0;
+            border-radius: 5px;
+            background: #272822;
+            overflow-x: auto;
+        }
+        
+        pre code {
+            padding: 0;
+            background: transparent;
+            font-family: 'Fira Mono', 'Consolas', 'Menlo', 'Monaco', monospace;
+            line-height: 1.5;
+            display: block;
+            overflow-x: visible;
+            white-space: pre;
+            word-wrap: normal;
+            tab-size: 4;
+        }
+        
+        .copy-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background-color: #3949ab;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 4px 10px;
+            font-size: 12px;
+            cursor: pointer;
+            opacity: 0.8;
+            transition: opacity 0.2s, background-color 0.2s;
+            z-index: 10;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+        
+        .copy-btn:hover {
+            opacity: 1;
+        }
+        
+        .copy-btn.success {
+            background-color: #4caf50;
+        }
+        
+        /* Poprawki dla wyświetlania na urządzeniach mobilnych */
+        @media (max-width: 700px) {
+            pre {
+                margin: 0.8em -6vw;
+                border-radius: 0;
+                width: calc(100% + 12vw);
+            }
+            
+            pre code {
+                padding: 0 6vw;
+            }
+            
+            .copy-btn {
+                top: 6px;
+                right: 6px;
+                padding: 3px 8px;
+                font-size: 11px;
+            }
+        }
+    </style>
 </head>
 <body>
     <nav class="main-nav">
@@ -23,13 +93,8 @@
         <h2>Utworzenie modułu API</h2>
         <ol>
             <li>Utwórz plik <code>gemini_api.py</code> w głównym folderze projektu</li>
-            <li>Skopiuj poniższy kod do utworzonego pliku</li>
-            <li>Zapisz zmiany w repozytorium:
-                <pre><code>git add gemini_api.py
-git commit -m "Dodanie modułu API Gemini"</code></pre>
-            </li>
-        </ol>
-        <pre><code>import os
+            <li>Skopiuj poniższy kod do utworzonego pliku:
+                <pre><code class="language-python">import os
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types
@@ -72,8 +137,13 @@ def generate_response(prompt, system_prompt="", temperature=0.7, max_tokens=1024
         
         return response.text
     except Exception as e:
-        return f"Błąd: {str(e)}"
-</code></pre>
+        return f"Błąd: {str(e)}"</code></pre>
+            </li>
+            <li>Zapisz zmiany w repozytorium:
+                <pre><code class="language-bash">git add gemini_api.py
+git commit -m "Dodanie modułu API Gemini"</code></pre>
+            </li>
+        </ol>
         <h2>Wyjaśnienie kodu</h2>
         <ul>
             <li><b>init_client()</b> – inicjalizuje klienta Gemini API, wczytując klucz API z pliku <code>.env</code></li>
@@ -84,7 +154,59 @@ def generate_response(prompt, system_prompt="", temperature=0.7, max_tokens=1024
         <p>Teraz, gdy mamy gotowy moduł do komunikacji z Gemini API, możemy przejść do tworzenia aplikacji z interfejsem graficznym. Przejdź do <a href="aplikacje-desktopowe.html">aplikacji desktopowych</a>, aby nauczyć się implementować interfejsy użytkownika przy użyciu Tkinter i PySide6.</p>
     </main>
     <footer>
-        <div>© 2025 Gemini Projekt. Wszelkie prawa zastrzeżone.</div>
+        <div>© 2025 Karim Sylla. karim.sylla@gmail.com. This project is open-source for educational purposes. Licensed under the MIT License.</div>
     </footer>
+    <!-- Importowanie skryptów Prism.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/plugins/autoloader/prism-autoloader.min.js"></script>
+    
+    <!-- Skrypt do kopiowania kodu -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Znajdź wszystkie bloki kodu
+            const codeBlocks = document.querySelectorAll('pre code');
+            
+            // Dodaj przycisk kopiowania do każdego bloku kodu
+            codeBlocks.forEach(function(codeBlock, index) {
+                const pre = codeBlock.parentNode;
+                const copyButton = document.createElement('button');
+                copyButton.className = 'copy-btn';
+                copyButton.textContent = 'Kopiuj';
+                copyButton.setAttribute('aria-label', 'Kopiuj kod do schowka');
+                copyButton.setAttribute('data-index', index);
+                
+                pre.appendChild(copyButton);
+                
+                // Dodaj obsługę kliknięcia
+                copyButton.addEventListener('click', function() {
+                    const code = codeBlock.textContent;
+                    copyToClipboard(code, copyButton);
+                });
+            });
+            
+            // Funkcja kopiująca tekst do schowka
+            function copyToClipboard(text, button) {
+                navigator.clipboard.writeText(text).then(function() {
+                    // Zmień tekst przycisku na "Skopiowano!" na chwilę
+                    const originalText = button.textContent;
+                    button.textContent = 'Skopiowano!';
+                    button.classList.add('success');
+                    
+                    setTimeout(function() {
+                        button.textContent = originalText;
+                        button.classList.remove('success');
+                    }, 2000);
+                })
+                .catch(function(err) {
+                    console.error('Błąd podczas kopiowania: ', err);
+                    button.textContent = 'Błąd!';
+                    
+                    setTimeout(function() {
+                        button.textContent = 'Kopiuj';
+                    }, 2000);
+                });
+            }
+        });
+    </script>
 </body>
 </html>

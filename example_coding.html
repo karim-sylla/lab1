@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formatowanie kodu w HTML - Python i Bash</title>
+    <!-- Import Prism CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-okaidia.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2, h3 {
+            margin-top: 30px;
+            color: #2c3e50;
+        }
+        pre {
+            border-radius: 5px;
+            margin: 20px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .code-container {
+            margin: 30px 0;
+            border-left: 4px solid #3498db;
+            padding-left: 15px;
+        }
+        .note {
+            background-color: #f9f9f9;
+            border-left: 4px solid #2ecc71;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        .warning {
+            background-color: #fff8e1;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 5px 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Formatowanie kodu w HTML - Python i Bash</h1>
+        <p>Ta strona demonstruje, jak prawidłowo wyświetlać kod źródłowy na stronach HTML z wykorzystaniem kolorowania składni.</p>
+    </header>
+
+    <section>
+        <h2>1. Podstawowe formatowanie kodu</h2>
+        <p>Najprostszym sposobem wyświetlania kodu w HTML jest użycie elementów <code>&lt;pre&gt;</code> i <code>&lt;code&gt;</code>:</p>
+        
+        <div class="code-container">
+            <pre><code class="language-html">&lt;pre&gt;&lt;code&gt;
+def hello_world():
+    print("Hello, World!")
+
+hello_world()
+&lt;/code&gt;&lt;/pre&gt;</code></pre>
+        </div>
+
+        <p>Rezultat (bez kolorowania składni):</p>
+        <pre><code>
+def hello_world():
+    print("Hello, World!")
+
+hello_world()
+        </code></pre>
+
+        <div class="note">
+            <p><strong>Uwaga:</strong> Element <code>&lt;pre&gt;</code> zachowuje białe znaki (spacje, tabulatory, nowe linie), co jest kluczowe dla wyświetlania kodu. Element <code>&lt;code&gt;</code> określa, że zawartość jest kodem.</p>
+        </div>
+    </section>
+
+    <section>
+        <h2>2. Kolorowanie składni z Prism.js</h2>
+        <p>Najlepszym podejściem jest użycie biblioteki do kolorowania składni, takiej jak Prism.js:</p>
+
+        <h3>Przykłady kodu Python</h3>
+        
+        <div class="code-container">
+            <h4>Przykład 1: Prosty program</h4>
+            <pre><code class="language-python">def greet(name):
+    """Funkcja wyświetlająca powitanie"""
+    return f"Witaj, {name}!"
+
+# Wywołanie funkcji
+message = greet("Jan")
+print(message)  # Wyświetli: Witaj, Jan!</code></pre>
+        </div>
+
+        <div class="code-container">
+            <h4>Przykład 2: Klasa w Pythonie</h4>
+            <pre><code class="language-python">class Person:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+        
+    def introduce(self):
+        return f"Nazywam się {self.name} i mam {self.age} lat."
+        
+    @property
+    def is_adult(self):
+        return self.age >= 18
+
+# Tworzenie obiektu
+person = Person("Anna", 25)
+print(person.introduce())
+print(f"Czy osoba jest dorosła? {person.is_adult}")</code></pre>
+        </div>
+
+        <div class="code-container">
+            <h4>Przykład 3: Przetwarzanie danych</h4>
+            <pre><code class="language-python">import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Wczytanie danych
+data = pd.read_csv('dane.csv')
+
+# Analiza danych
+mean_value = data['wartość'].mean()
+median_value = data['wartość'].median()
+
+# Wizualizacja
+plt.figure(figsize=(10, 6))
+plt.hist(data['wartość'], bins=20, alpha=0.7)
+plt.axvline(mean_value, color='red', linestyle='dashed', linewidth=1, label=f'Średnia: {mean_value:.2f}')
+plt.axvline(median_value, color='green', linestyle='dashed', linewidth=1, label=f'Mediana: {median_value:.2f}')
+plt.legend()
+plt.title('Rozkład wartości')
+plt.savefig('wykres.png')
+plt.show()</code></pre>
+        </div>
+
+        <h3>Przykłady kodu Bash</h3>
+        
+        <div class="code-container">
+            <h4>Przykład 1: Prosty skrypt</h4>
+            <pre><code class="language-bash">#!/bin/bash
+
+# Prosty skrypt powitalny
+echo "Witaj w skrypcie Bash!"
+
+# Pobieranie daty i wyświetlanie
+current_date=$(date +"%Y-%m-%d")
+echo "Dzisiejsza data to: $current_date"
+
+# Sprawdzanie katalogu
+echo "Pliki w bieżącym katalogu:"
+ls -la</code></pre>
+        </div>
+
+        <div class="code-container">
+            <h4>Przykład 2: Pętla i warunki</h4>
+            <pre><code class="language-bash">#!/bin/bash
+
+# Iteracja przez pliki w katalogu
+echo "Szukanie plików .txt..."
+count=0
+
+for file in *.txt; do
+    if [ -f "$file" ]; then
+        echo "Znaleziono: $file"
+        count=$((count + 1))
+    fi
+done
+
+if [ $count -eq 0 ]; then
+    echo "Nie znaleziono plików .txt"
+else
+    echo "Znaleziono $count plików .txt"
+fi</code></pre>
+        </div>
+
+        <div class="code-container">
+            <h4>Przykład 3: Funkcje i argumenty</h4>
+            <pre><code class="language-bash">#!/bin/bash
+
+# Funkcja do sprawdzania czy plik istnieje
+check_file() {
+    local file_path="$1"
+    
+    if [ -f "$file_path" ]; then
+        echo "Plik $file_path istnieje."
+        echo "Zawartość pliku:"
+        cat "$file_path"
+        return 0
+    else
+        echo "Błąd: Plik $file_path nie istnieje!" >&2
+        return 1
+    fi
+}
+
+# Sprawdzanie argumentów
+if [ $# -eq 0 ]; then
+    echo "Użycie: $0 ścieżka_do_pliku" >&2
+    exit 1
+fi
+
+# Wywołanie funkcji
+check_file "$1"
+exit_code=$?
+
+echo "Skrypt zakończony z kodem: $exit_code"</code></pre>
+        </div>
+    </section>
+
+    <section>
+        <h2>3. Implementacja kolorowania składni</h2>
+        
+        <p>Aby zaimplementować kolorowanie składni na swojej stronie:</p>
+        
+        <ol>
+            <li>Dodaj bibliotekę Prism.js do swojej strony HTML:</li>
+        </ol>
+        
+        <div class="code-container">
+            <pre><code class="language-html">&lt;!-- W sekcji &lt;head&gt; -->
+&lt;link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-okaidia.min.css"&gt;
+&lt;!-- Na końcu &lt;body&gt; -->
+&lt;script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-core.min.js"&gt;&lt;/script&gt;
+&lt;script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/plugins/autoloader/prism-autoloader.min.js"&gt;&lt;/script&gt;</code></pre>
+        </div>
+        
+        <ol start="2">
+            <li>Oznacz swoje bloki kodu odpowiednimi klasami języka:</li>
+        </ol>
+        
+        <div class="code-container">
+            <pre><code class="language-html">&lt;pre&gt;&lt;code class="language-python"&gt;
+def hello_world():
+    print("Hello, World!")
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class="language-bash"&gt;
+#!/bin/bash
+echo "Hello, World!"
+&lt;/code&gt;&lt;/pre&gt;</code></pre>
+        </div>
+
+        <div class="warning">
+            <p><strong>Ważne:</strong> Pamiętaj o prawidłowym escapowaniu znaków specjalnych HTML, takich jak &lt;, &gt; i &amp;, jeśli dodajesz kod ręcznie. Alternatywnie, możesz użyć narzędzi do automatycznego escapowania.</p>
+        </div>
+    </section>
+
+    <section>
+        <h2>4. Inne popularne biblioteki do kolorowania składni</h2>
+        <p>Oprócz Prism.js, warto rozważyć:</p>
+        <ul>
+            <li><strong>highlight.js</strong> - podobna do Prism.js, z szerokim wsparciem dla języków</li>
+            <li><strong>CodeMirror</strong> - zaawansowany edytor kodu z kolorowaniem składni</li>
+            <li><strong>Pygments</strong> (z backendem serwera) - potężne narzędzie do generowania kolorowanego kodu HTML</li>
+        </ul>
+    </section>
+
+    <!-- Importowanie skryptów Prism.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/plugins/autoloader/prism-autoloader.min.js"></script>
+</body>
+</html>
