@@ -23,13 +23,6 @@ Aplikacje desktopowe oferują przyjazny dla użytkownika interfejs graficzny, u�
    pip install -r requirements.txt
    ```
 
-3. **Utworzenie wspólnego modułu API** (jeśli jeszcze nie istnieje)
-   ```bash
-   # Implementuj gemini_api.py zgodnie z poprzednim modułem
-   git add gemini_api.py
-   git commit -m "Dodanie modułu API Gemini"
-   ```
-
 ## Aplikacja Tkinter (tkinter_app.py)
 
 Tkinter to standardowa biblioteka do tworzenia interfejsów graficznych w Pythonie. Jest dostępna w każdej instalacji Pythona bez potrzeby instalowania dodatkowych pakietów, co czyni ją doskonałym wyborem dla prostych aplikacji i szybkiego prototypowania.

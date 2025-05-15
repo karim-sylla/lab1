@@ -2,6 +2,16 @@
 
 Ten moduł zawiera funkcjonalność komunikacji z Google Gemini API, która jest współdzielona przez wszystkie interfejsy aplikacji.
 
+## Utworzenie modułu API
+
+1. Utwórz plik `gemini_api.py` w głównym folderze projektu
+2. Skopiuj poniższy kod do utworzonego pliku
+3. Zapisz zmiany w repozytorium:
+   ```bash
+   git add gemini_api.py
+   git commit -m "Dodanie modułu API Gemini"
+   ```
+
 ```python
 import os
 from dotenv import load_dotenv
