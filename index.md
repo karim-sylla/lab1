@@ -96,6 +96,7 @@ Celem tego projektu jest zdobycie praktycznych umiejętności budowania aplikacj
    - Jeśli masz kilka wersji, możesz wybrać konkretną przy tworzeniu venv, np.: `py -3.12 -m venv venv` lub `py -3.11 -m venv venv`.
 
    > Wirtualne środowisko (virtual environment) pozwala na izolację zależności projektu od innych projektów Pythona na tym samym komputerze. Zapewnia to spójność wersji bibliotek i eliminuje konflikty między różnymi projektami, co jest kluczowe dla stabilności aplikacji.
+
    **Obsługa błędu aktywacji venv na Windows:**
 
    Jeśli podczas aktywacji środowiska poleceniem `.\venv\Scripts\Activate` pojawi się błąd dotyczący polityki wykonywania skryptów (np. "execution of scripts is disabled"), możesz jednorazowo zmienić politykę w PowerShell:
@@ -130,7 +131,17 @@ Celem tego projektu jest zdobycie praktycznych umiejętności budowania aplikacj
    - Do czego służy: requirements.txt przechowuje listę zależności projektu (często z wersjami), aby każdy mógł odtworzyć środowisko poleceniem: `pip install -r requirements.txt`.
    - Prostsza alternatywa: zainstaluj pakiety ręcznie w aktywnym venv: `pip install python-dotenv google-genai`. W razie potrzeby zapisz stan do pliku: `pip freeze > requirements.txt`.
 
-9. **Utworzenie pliku .gitignore (krok opcjonalny — best practice)**
+9. **Instalacja zależności**
+   Następnym krokiem jest instalacja wszystkich wymaganych bibliotek Python zdefiniowanych w pliku requirements.txt. Jest to niezbędne, aby nasza aplikacja miała dostęp do wszystkich potrzebnych narzędzi i interfejsów API. Wykonaj polecie w terminalu
+   
+   ```bash
+   pip install -r requirements.txt
+   ```
+   
+   > Instalacja zależności z pliku requirements.txt zapewnia, że wszystkie wymagane biblioteki będą dostępne w odpowiednich wersjach. To ważny krok pozwalający na utrzymanie spójności środowiska i uniknięcie problemów z kompatybilnością między różnymi wersjami bibliotek.
+
+Punkty 10 i 11 są opcjonalne, ale zalecane.
+10. **Utworzenie pliku .gitignore (krok opcjonalny — best practice)**
    Koniecznie utwórz  plik `.gitignore`:
    
    - Utwórz nowy plik tekstowy o nazwie `.gitignore` w głównym katalogu projektu
@@ -145,7 +156,7 @@ Celem tego projektu jest zdobycie praktycznych umiejętności budowania aplikacj
    
    > Plik .gitignore określa, które pliki i katalogi Git powinien ignorować podczas śledzenia zmian. Zwykle pomijamy pliki tymczasowe, katalogi środowiska wirtualnego, pliki zawierające wrażliwe dane (jak .env) oraz pliki specyficzne dla IDE, ponieważ nie są one istotne dla projektu i mogą zawierać dane specyficzne dla danego komputera.
 
-10. **Weryfikacja instalacji Git i aktywacja (krok opcjonalny — best practice)**
+11. **Weryfikacja instalacji Git i aktywacja (krok opcjonalny — best practice)**
    Po utworzeniu pliku `.gitignore`, możemy przystąpić do inicjalizacji repozytorium Git. Najpierw warto sprawdzić, czy Git jest poprawnie zainstalowany, a następnie skonfigurować podstawowe informacje o użytkowniku. Te kroki są niezbędne przed rozpoczęciem śledzenia zmian w projekcie.
    
    ```bash
@@ -159,14 +170,6 @@ Celem tego projektu jest zdobycie praktycznych umiejętności budowania aplikacj
 
    > Git pozwala na śledzenie zmian w projekcie, wersjonowanie kodu i łatwą współpracę. Konfiguracja nazwy użytkownika i adresu email jest wymagana przed pierwszym commitem, by właściwie identyfikować autora zmian.
 
-11. **Instalacja zależności**
-   Po inicjalizacji repozytorium Git, następnym krokiem jest instalacja wszystkich wymaganych bibliotek Python zdefiniowanych w pliku requirements.txt. Jest to niezbędne, aby nasza aplikacja miała dostęp do wszystkich potrzebnych narzędzi i interfejsów API. Wykonaj polecie w terminalu
-   
-   ```bash
-   pip install -r requirements.txt
-   ```
-   
-   > Instalacja zależności z pliku requirements.txt zapewnia, że wszystkie wymagane biblioteki będą dostępne w odpowiednich wersjach. To ważny krok pozwalający na utrzymanie spójności środowiska i uniknięcie problemów z kompatybilnością między różnymi wersjami bibliotek.
 
 12. **Dokumentacja Gemini API**
    Przed rozpoczęciem programowania warto zapoznać się z oficjalną dokumentacją Gemini API, która zawiera szczegółowe informacje o dostępnych funkcjach, parametrach i przykładach użycia:
@@ -182,6 +185,7 @@ Aplikacje terminalowe są doskonałym punktem wyjścia do testowania API bez kon
 
 W najprostszej wersji, aplikacja terminalowa jest prostym skryptem bezpośrednio komunikującym się z API:
 
+### 1. Bazowy chatbot
 ```
 Utwórz skrypt terminalowy, który wczytuje GEMINI_API_KEY z .env, 
 inicjalizuje klienta Gemini i wysyła zapytanie do modelu gemini-2.0-flash
@@ -204,7 +208,7 @@ client = genai.Client(api_key=api_key)
 # Generowanie odpowiedzi
 response = client.models.generate_content(
     model="gemini-2.0-flash", 
-    contents="Explain how AI works in a few words"
+    contents="Wytłumacz działanie propagacji wstecznej w kontekście LLM - krótko"
 )
 
 # Wyświetlenie odpowiedzi
@@ -228,37 +232,37 @@ gemini_projekt/
 └── requirements.txt    # Wymagane zależności
 ```
 
-## Co dalej?
-
-Następnym krokiem będzie utworzenie modułu API Gemini, który posłuży jako wspólna warstwa komunikacji z API dla wszystkich naszych aplikacji. Przejdź do [modułu API](gemini-api-module.md), aby poznać szczegóły implementacji funkcji obsługującej Gemini API.
-
-Po opanowaniu podstaw komunikacji z API, zajmiemy się budowaniem aplikacji desktopowych, które zapewnią bardziej przyjazny interfejs użytkownika do interakcji z modelem Gemini. Przejdź do [aplikacji desktopowych](aplikacje-desktopowe.md), aby dowiedzieć się, jak tworzyć aplikacje GUI przy użyciu Tkinter i PySide6.
 
 ## Rozbudowa aplikacji terminalowej — ćwiczenia (a–f)
 
 W tej części będziesz inkrementalnie rozszerzać `app_terminal.py`. Każdy krok bazuje na poprzednim i jest zgodny z dokumentacją „Generowanie tekstu” Gemini API.
 
-- a) wprowadzenie parametru temperatury
-- b) wprowadzenie prompta systemowego
-- c) wprowadzenie reasoningu (zmień model na 2.5 Flash)
-- d) wprowadzenie streamingu
-- e) wprowadzenie chatu z historią
-- f) wprowadzenie multimodalności (czytanie pliku `image.png` z katalogu głównego)
+- 2) wprowadzenie parametru temperatury
+- 3) wprowadzenie prompta systemowego
+- 4) wprowadzenie reasoningu (zmień model na 2.5 Flash)
+- 5) wprowadzenie streamingu
+- 6) wprowadzenie chatu z historią
+- 7) wprowadzenie multimodalności (czytanie pliku `image.png` z katalogu głównego)
 
 Wskazówka: dalej używamy pakietu `google-genai`. Importujemy też `types` do konfiguracji.
 
-### a) Parametr temperatury (kontrola kreatywności)
+### 2. Parametr temperatury (kontrola kreatywności)
 
 Najprostsze ustawienie temperatury przez `GenerateContentConfig`.
 
 ```python
+import os
+from dotenv import load_dotenv
 from google import genai
 from google.genai import types
-client = genai.Client()  # pobiera GEMINI_API_KEY z env
+
+load_dotenv()
+api_key = os.getenv("GEMINI_API_KEY")
+client = genai.Client(api_key=api_key)
 
 resp = client.models.generate_content(
-   model="gemini-2.0-flash",  # w (c) przełączymy na 2.5
-   contents=["Explain how AI works in a few words"],
+   model="gemini-2.0-flash", 
+   contents=["Wytłumacz działanie propagacji wstecznej w kontekście LLM - krótko"],
    config=types.GenerateContentConfig(temperature=0.2),
 )
 print(resp.text)
@@ -266,7 +270,7 @@ print(resp.text)
 
 Krótko: niższa temperatura (np. 0.1) = bardziej zachowawcze; wyższa (np. 0.9) = bardziej kreatywne.
 
-### b) Prompt systemowy (sterowanie rolą modelu)
+### 3. Prompt systemowy (sterowanie rolą modelu)
 
 Użyj `system_instruction`, aby ustawić personę/zasady.
 
@@ -288,7 +292,7 @@ print(resp.text)
 
 Krótko: `system_instruction` ustawia „personę”/reguły modelu (np. ton, rola, format).
 
-### c) Reasoning: przejście na Gemini 2.5 Flash i budżet myślenia
+### 4. Reasoning: przejście na Gemini 2.5 Flash i budżet myślenia
 
 Przełącz model na `gemini-2.5-flash`. „Myślenie” (reasoning) jest domyślnie włączone. Opcjonalnie możesz ustawić budżet myślenia.
 
@@ -310,7 +314,7 @@ print(resp.text)
 
 Krótko: 2.5 Flash poprawia reasoning; budżet 0 wyłącza myślenie (szybciej/taniej).
 
-### d) Streaming odpowiedzi (płynne wyświetlanie)
+### 5. Streaming odpowiedzi (płynne wyświetlanie)
 
 Użyj `generate_content_stream`, aby wypisywać fragmenty na bieżąco.
 
@@ -329,7 +333,7 @@ for chunk in response:
 
 Krótko: streaming poprawia UX w terminalu — treść pojawia się przyrostowo.
 
-### e) Chat z historią (wieloturówka)
+### 6. Chat z historią (wieloturówka)
 
 Przykład: kilka tur i podgląd historii.
 
@@ -351,14 +355,15 @@ for m in chat.get_history():
 
 Krótko: SDK utrzymuje historię; przy każdej turze wysyłana jest pełna konwersacja.
 
-### f) Multimodalność: tekst + obraz (`image.png` w katalogu głównym)
+### 7. Multimodalność: tekst + obraz (`image.png` w katalogu głównym)
 
 Wczytaj obraz i wyślij go razem z promptem. Wymaga biblioteki Pillow.
 
 Upewnij się, że w katalogu projektu istnieje plik `image.png`. Jeśli nie masz Pillow, doinstaluj:
+Dodaj linijkę Pillow w pliku requirements.txt oraz zainstaluj komendą 
 
-```powershell
-pip install Pillow
+```bash
+pip install -r requirements.txt
 ```
 
 Przykład:
@@ -384,3 +389,10 @@ Krótko: API 2.5 przyjmuje obrazy jako wejście; możesz pytać np. „Co jest n
 - Parametry możesz łączyć: np. `--system`, `--temperature`, `--stream` działają jednocześnie.
 - Dla multimodalności dodaj `Pillow` do `requirements.txt` lub instaluj ad-hoc.
 - Dokumentacja, na której bazują powyższe przykłady: [Gemini - Generowanie tekstu](https://ai.google.dev/gemini-api/docs/text-generation)” (sekcje: system instruction, temperature, streaming, chat, multimodal).
+
+
+## Co dalej?
+
+Następnym krokiem będzie utworzenie modułu API Gemini, który posłuży jako wspólna warstwa komunikacji z API dla wszystkich naszych aplikacji. Przejdź do [modułu API](gemini-api-module.md), aby poznać szczegóły implementacji funkcji obsługującej Gemini API.
+
+Po opanowaniu podstaw komunikacji z API, zajmiemy się budowaniem aplikacji desktopowych, które zapewnią bardziej przyjazny interfejs użytkownika do interakcji z modelem Gemini. Przejdź do [aplikacji desktopowych](aplikacje-desktopowe.md), aby dowiedzieć się, jak tworzyć aplikacje GUI przy użyciu Tkinter i PySide6.
