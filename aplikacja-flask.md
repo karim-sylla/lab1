@@ -2,6 +2,8 @@
 
 Flask to lekki, ale potężny framework webowy dla Pythona, który umożliwia tworzenie pełnoprawnych aplikacji internetowych. W przeciwieństwie do Streamlit, który jest bardziej specjalizowany pod kątem aplikacji data science, Flask daje pełną kontrolę nad architekturą, wyglądem i zachowaniem aplikacji. Pozwala na tworzenie profesjonalnych interfejsów użytkownika, zarządzanie sesjami, integrację z bazami danych i implementację API RESTful. Jest idealny gdy potrzebujesz większej elastyczności lub planujesz rozwijać aplikację w kierunku produkcyjnym.
 
+![Zrzut ekranu aplikacji Flask](images/flask.png)
+
 ## Przygotowanie środowiska do aplikacji Flask
 
 1. **Aktualizacja pliku requirements.txt**
@@ -194,7 +196,7 @@ python flask_app.py
 
 Aplikacja będzie dostępna w przeglądarce pod adresem http://localhost:5000.
 
-Po zaimplementowaniu aplikacji Flask, zapisz zmiany w repozytorium:
+Po zaimplementowaniu aplikacji Flask, zapisz zmiany w repozytorium (krok opcjonalny — best practice):
 
 ```bash
 git add flask_app.py templates/ static/

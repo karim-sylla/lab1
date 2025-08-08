@@ -54,7 +54,7 @@ def generate_response(prompt, system_prompt="", temperature=0.7, max_tokens=1024
     except Exception as e:
         return f"Błąd: {str(e)}"
 ```
-3. Zapisz zmiany w repozytorium:
+3. Zapisz zmiany w repozytorium (krok opcjonalny — best practice):
    ```bash
    git add gemini_api.py
    git commit -m "Dodanie modułu API Gemini"

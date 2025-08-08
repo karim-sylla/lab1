@@ -19,6 +19,8 @@ Aplikacje desktopowe oferują przyjazny dla użytkownika interfejs graficzny, u�
 
 Tkinter to standardowa biblioteka do tworzenia interfejsów graficznych w Pythonie. Jest dostępna w każdej instalacji Pythona bez potrzeby instalowania dodatkowych pakietów, co czyni ją doskonałym wyborem dla prostych aplikacji i szybkiego prototypowania.
 
+![Zrzut ekranu aplikacji Tkinter](images/tkinter_app.png)
+
 ** Przygotowanie środowiska**
 Tkinter jest już wbudowany w standardową bibliotekę Pythona, więc nie wymaga dodatkowej instalacji.
 
@@ -140,7 +142,7 @@ Aby uruchomić aplikację Tkinter:
 python tkinter_app.py
 ```
 
-Po zaimplementowaniu aplikacji Tkinter, zapisz zmiany w repozytorium:
+Po zaimplementowaniu aplikacji Tkinter, zapisz zmiany w repozytorium (krok opcjonalny — best practice):
 
 ```bash
 git add tkinter_app.py
@@ -150,6 +152,8 @@ git commit -m "Implementacja aplikacji desktopowej Tkinter"
 ## Aplikacja PySide6 (pyside_app.py)
 
 PySide6 jest oficjalnym wiązaniem Pythona dla Qt, popularnego frameworka do tworzenia aplikacji wieloplatformowych. W porównaniu do Tkinter, PySide6 oferuje bardziej nowoczesny wygląd, zaawansowane komponenty i lepszą obsługę stylów. Jest idealny do tworzenia profesjonalnych aplikacji desktopowych.
+
+![Zrzut ekranu aplikacji PySide6](images/pyside6_app.png)
 
 **Przygotowanie środowiska dla PySide6:**
 Możesz dodać poniższą wartość "pyside6" do pliku `requirements.txt`. A następnie zainstaluj 
@@ -287,7 +291,7 @@ if __name__ == "__main__":
     sys.exit(app.exec())
 ```
 
-Po zaimplementowaniu aplikacji PySide6, zapisz zmiany w repozytorium:
+Po zaimplementowaniu aplikacji PySide6, zapisz zmiany w repozytorium (krok opcjonalny — best practice):
 
 ```bash
 git add pyside_app.py

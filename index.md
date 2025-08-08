@@ -15,15 +15,54 @@ Celem tego projektu jest zdobycie praktycznych umiejętności budowania aplikacj
 2. **Instalacja GitHub Copilot w VSC**
    - Otwórz VSC
    - Przejdź do Extensions (Ctrl+Shift+X)
-   - Wyszukaj "GitHub Copilot" i zainstaluj
+   - Wyszukaj "GitHub Copilot" i zainstaluj + zaloguj
 
-3. **Założenie konta Gemini Studio**
+3. **Weryfikacja i instalacja Pythona (oficjalne źródło)**
+    - Sprawdź, czy Python jest zainstalowany oraz jaką ma wersję.
+
+       Windows (PowerShell):
+       ```powershell
+       python --version
+       py --version
+       ```
+
+       Jeśli polecenia nie działają lub wersja jest starsza niż 3.11, zainstaluj Pythona z oficjalnej strony.
+
+    - Instalacja dla Windows z python.org:
+       1) Wejdź na https://www.python.org/downloads/ i pobierz instalator dla Windows (64-bit) w wersji 3.11.x lub 3.12.x (rekomendowane).
+       2) Uruchom instalator, zaznacz opcję „Add Python to PATH”.
+       3) Opcjonalnie wybierz „Customize installation”. Uwaga: „Install for all users” wymaga uprawnień administratora.
+       4) Po instalacji otwórz nowy terminal i zweryfikuj:
+
+       ```powershell
+       python --version
+       py -V
+       ```
+
+   - Uprawnienia — co działa bez administratora?
+       - Bez admina (zalecane w środowiskach studenckich/firmowych):
+          - „Install Now” (instalacja dla bieżącego użytkownika do AppData) — działa bez admina.
+          - Pozostaw „Add Python to PATH” zaznaczone (dodaje do PATH użytkownika).
+          - Nie zaznaczaj „Install for all users” ani „Install launcher for all users”.
+       - Wymaga uprawnień administratora:
+          - „Install for all users” (instalacja do Program Files, PATH systemowy).
+
+
+4. **Założenie konta Gemini Studio**
    - Odwiedź https://aistudio.google.com/app/prompts/new_chat
    - Zaloguj się kontem Google
    - Przejdź do sekcji API Keys (https://aistudio.google.com/app/apikey)
    - Wygeneruj nowy klucz API
 
-4. **Testowanie API w terminalu (curl)**
+   Obowiązuje limity darmowego wykorzystania modeli Gemini
+   - Gemini 2.5 Flash: 10 RPM, 250k TPM, 250 RPD
+   - Gemini 2.5 Pro: 5 RPM, 250k TPM, 100 RPD
+   - Gemini 2.0 Flash: 15 RPM, 1,000k TPM, 200 RPD
+
+   Skróty: RPM — żądania na minutę; TPM — tokeny (wejściowe) na minutę; RPD — żądania na dzień.
+   ([dŹródło: ](https://ai.google.dev/gemini-api/docs/rate-limits))
+
+5. **Testowanie API w terminalu (curl)**
    ```bash
    curl "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=YOUR_API_KEY" \
      -H 'Content-Type: application/json' \
@@ -45,7 +84,7 @@ Celem tego projektu jest zdobycie praktycznych umiejętności budowania aplikacj
    
    > Bezpośrednie testowanie API przez terminal pozwala na szybką weryfikację działania interfejsu bez pisania kodu. To dobry sposób na zrozumienie struktury żądań i odpowiedzi.
 
-5. **Utworzenie i aktywacja virtual env**
+6. **Utworzenie i aktywacja virtual env**
    ```bash
    python -m venv venv
    # Windows
@@ -53,17 +92,33 @@ Celem tego projektu jest zdobycie praktycznych umiejętności budowania aplikacj
    # Linux/Mac
    source venv/bin/activate
    ```
-   
-   > Wirtualne środowisko (virtual environment) pozwala na izolację zależności projektu od innych projektów Pythona na tym samym komputerze. Zapewnia to spójność wersji bibliotek i eliminuje konflikty między różnymi projektami, co jest kluczowe dla stabilności aplikacji.
+   Wskazówka:
+   - Jeśli masz kilka wersji, możesz wybrać konkretną przy tworzeniu venv, np.: `py -3.12 -m venv venv` lub `py -3.11 -m venv venv`.
 
-6. **Utworzenie pliku .env**
+   > Wirtualne środowisko (virtual environment) pozwala na izolację zależności projektu od innych projektów Pythona na tym samym komputerze. Zapewnia to spójność wersji bibliotek i eliminuje konflikty między różnymi projektami, co jest kluczowe dla stabilności aplikacji.
+   **Obsługa błędu aktywacji venv na Windows:**
+
+   Jeśli podczas aktywacji środowiska poleceniem `.\venv\Scripts\Activate` pojawi się błąd dotyczący polityki wykonywania skryptów (np. "execution of scripts is disabled"), możesz jednorazowo zmienić politykę w PowerShell:
+
+   ```powershell
+   Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+   ```
+
+   To pozwala na uruchamianie skryptów lokalnych, ale wymaga podpisania skryptów pobranych z internetu.
+
+   Aby wyłączyć środowisko, wpisz:
+
+   ```bash
+   deactivate
+   ```
+7. **Utworzenie pliku .env**
    ```
    GEMINI_API_KEY=TU_WSTAW_SWÓJ_KLUCZ_API
    ```
    
    > Plik .env służy do przechowywania zmiennych środowiskowych, takich jak klucze API, które nie powinny być umieszczane bezpośrednio w kodzie. To praktyka zwiększająca bezpieczeństwo aplikacji, ponieważ wrażliwe dane nie są przechowywane w repozytorium kodu.
 
-7. **Utworzenie pliku requirements.txt**
+8. **Utworzenie pliku requirements.txt**
    ```
    python-dotenv
    google-genai
@@ -71,7 +126,11 @@ Celem tego projektu jest zdobycie praktycznych umiejętności budowania aplikacj
    
    > Na tym etapie potrzebujemy tylko tych dwóch pakietów do pracy z API Gemini. W kolejnych fazach będziemy dodawać inne zależności odpowiednio do potrzeb.
 
-8. **Utworzenie pliku .gitignore**
+   Krótkie omówienie:
+   - Do czego służy: requirements.txt przechowuje listę zależności projektu (często z wersjami), aby każdy mógł odtworzyć środowisko poleceniem: `pip install -r requirements.txt`.
+   - Prostsza alternatywa: zainstaluj pakiety ręcznie w aktywnym venv: `pip install python-dotenv google-genai`. W razie potrzeby zapisz stan do pliku: `pip freeze > requirements.txt`.
+
+9. **Utworzenie pliku .gitignore (krok opcjonalny — best practice)**
    Koniecznie utwórz  plik `.gitignore`:
    
    - Utwórz nowy plik tekstowy o nazwie `.gitignore` w głównym katalogu projektu
@@ -86,7 +145,7 @@ Celem tego projektu jest zdobycie praktycznych umiejętności budowania aplikacj
    
    > Plik .gitignore określa, które pliki i katalogi Git powinien ignorować podczas śledzenia zmian. Zwykle pomijamy pliki tymczasowe, katalogi środowiska wirtualnego, pliki zawierające wrażliwe dane (jak .env) oraz pliki specyficzne dla IDE, ponieważ nie są one istotne dla projektu i mogą zawierać dane specyficzne dla danego komputera.
 
-9. **Weryfikacja instalacji Git i aktywacja**
+10. **Weryfikacja instalacji Git i aktywacja (krok opcjonalny — best practice)**
    Po utworzeniu pliku `.gitignore`, możemy przystąpić do inicjalizacji repozytorium Git. Najpierw warto sprawdzić, czy Git jest poprawnie zainstalowany, a następnie skonfigurować podstawowe informacje o użytkowniku. Te kroki są niezbędne przed rozpoczęciem śledzenia zmian w projekcie.
    
    ```bash
@@ -100,7 +159,7 @@ Celem tego projektu jest zdobycie praktycznych umiejętności budowania aplikacj
 
    > Git pozwala na śledzenie zmian w projekcie, wersjonowanie kodu i łatwą współpracę. Konfiguracja nazwy użytkownika i adresu email jest wymagana przed pierwszym commitem, by właściwie identyfikować autora zmian.
 
-10. **Instalacja zależności**
+11. **Instalacja zależności**
    Po inicjalizacji repozytorium Git, następnym krokiem jest instalacja wszystkich wymaganych bibliotek Python zdefiniowanych w pliku requirements.txt. Jest to niezbędne, aby nasza aplikacja miała dostęp do wszystkich potrzebnych narzędzi i interfejsów API. Wykonaj polecie w terminalu
    
    ```bash
@@ -109,7 +168,7 @@ Celem tego projektu jest zdobycie praktycznych umiejętności budowania aplikacj
    
    > Instalacja zależności z pliku requirements.txt zapewnia, że wszystkie wymagane biblioteki będą dostępne w odpowiednich wersjach. To ważny krok pozwalający na utrzymanie spójności środowiska i uniknięcie problemów z kompatybilnością między różnymi wersjami bibliotek.
 
-11. **Dokumentacja Gemini API**
+12. **Dokumentacja Gemini API**
    Przed rozpoczęciem programowania warto zapoznać się z oficjalną dokumentacją Gemini API, która zawiera szczegółowe informacje o dostępnych funkcjach, parametrach i przykładach użycia:
    
    - Przewodnik szybkiego startu: https://ai.google.dev/gemini-api/docs/quickstart
@@ -152,7 +211,7 @@ response = client.models.generate_content(
 print(response.text)
 ```
 
-Po zakończeniu implementacji aplikacji terminalowej, zapisz zmiany w repozytorium:
+Po zakończeniu implementacji aplikacji terminalowej, zapisz zmiany w repozytorium (krok opcjonalny — best practice):
 
 ```bash
 git add app_terminal.py

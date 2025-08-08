@@ -2,6 +2,8 @@
 
 Streamlit to nowoczesna biblioteka Pythona zaprojektowana specjalnie do tworzenia aplikacji webowych dla projektów związanych z danymi i sztuczną inteligencją. Wyróżnia się wyjątkowo prostym API, które pozwala przekształcić skrypty Pythona w interaktywne aplikacje webowe z minimalnym nakładem pracy. Dzięki automatycznemu odświeżaniu i wbudowanym widżetom, Streamlit jest idealnym wyborem do szybkiego prototypowania i prezentacji możliwości modeli AI.
 
+![Zrzut ekranu aplikacji Streamlit](images/streamlit_app.png)
+
 ## Przygotowanie środowiska do aplikacji Streamlit
 
 1. **Aktualizacja pliku requirements.txt**
@@ -65,7 +67,7 @@ if st.button("Generuj odpowiedź"):
         st.warning("Proszę wprowadzić zapytanie.")
 ```
 
-Po zaimplementowaniu aplikacji Streamlit, zapisz zmiany w repozytorium:
+Po zaimplementowaniu aplikacji Streamlit, zapisz zmiany w repozytorium (krok opcjonalny — best practice):
 
 ```bash
 git add streamlit_app.py
