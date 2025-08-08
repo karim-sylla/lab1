@@ -89,8 +89,7 @@ Celem tego projektu jest zdobycie praktycznych umiejętności budowania aplikacj
    python -m venv venv
    # Windows
    venv\Scripts\activate
-   # Linux/Mac
-   source venv/bin/activate
+
    ```
    Wskazówka:
    - Jeśli masz kilka wersji, możesz wybrać konkretną przy tworzeniu venv, np.: `py -3.12 -m venv venv` lub `py -3.11 -m venv venv`.
@@ -130,7 +129,7 @@ Celem tego projektu jest zdobycie praktycznych umiejętności budowania aplikacj
    Krótkie omówienie:
    - Do czego służy: requirements.txt przechowuje listę zależności projektu (często z wersjami), aby każdy mógł odtworzyć środowisko poleceniem: `pip install -r requirements.txt`.
    - Prostsza alternatywa: zainstaluj pakiety ręcznie w aktywnym venv: `pip install python-dotenv google-genai`. W razie potrzeby zapisz stan do pliku: `pip freeze > requirements.txt`.
-
+      - Wprowadzenie  pliku requirments: https://www.danesawszedzie.pl/jak-w-pythonie-przekazac-uzyte-biblioteki-czyli-requirements-txt/
 9. **Instalacja zależności**
    Następnym krokiem jest instalacja wszystkich wymaganych bibliotek Python zdefiniowanych w pliku requirements.txt. Jest to niezbędne, aby nasza aplikacja miała dostęp do wszystkich potrzebnych narzędzi i interfejsów API. Wykonaj polecie w terminalu
    
@@ -275,10 +274,14 @@ Krótko: niższa temperatura (np. 0.1) = bardziej zachowawcze; wyższa (np. 0.9)
 Użyj `system_instruction`, aby ustawić personę/zasady.
 
 ```python
+import os
+from dotenv import load_dotenv
 from google import genai
 from google.genai import types
 
-client = genai.Client()
+load_dotenv()
+api_key = os.getenv("GEMINI_API_KEY")
+client = genai.Client(api_key=api_key)
 
 resp = client.models.generate_content(
    model="gemini-2.0-flash",
@@ -289,6 +292,31 @@ resp = client.models.generate_content(
 )
 print(resp.text)
 ```
+Zaleca się umieszczenie promptów w dedykowanych zmiennych, co poprawia czytelność kodu i ułatwia jego dalszą rozbudowę oraz utrzymanie.
+
+```python
+import os
+from dotenv import load_dotenv
+from google import genai
+from google.genai import types
+
+load_dotenv()
+api_key = os.getenv("GEMINI_API_KEY")
+client = genai.Client(api_key=api_key)
+
+user_prompt = "Napisz 3 wskazówki produktywności"
+system_prompt = "Jesteś asystentem-ekspertem. Pisz zwięźle po polsku."
+
+resp = client.models.generate_content(
+   model="gemini-2.0-flash",
+   contents=[user_prompt],
+   config=types.GenerateContentConfig(
+      system_instruction=system_prompt
+   ),
+)
+print(resp.text)
+```
+
 
 Krótko: `system_instruction` ustawia „personę”/reguły modelu (np. ton, rola, format).
 
@@ -297,10 +325,14 @@ Krótko: `system_instruction` ustawia „personę”/reguły modelu (np. ton, ro
 Przełącz model na `gemini-2.5-flash`. „Myślenie” (reasoning) jest domyślnie włączone. Opcjonalnie możesz ustawić budżet myślenia.
 
 ```python
+import os
+from dotenv import load_dotenv
 from google.genai import types
 from google import genai
 
-client = genai.Client()
+load_dotenv()
+api_key = os.getenv("GEMINI_API_KEY")
+client = genai.Client(api_key=api_key)
 
 resp = client.models.generate_content(
    model="gemini-2.5-flash",
@@ -319,13 +351,17 @@ Krótko: 2.5 Flash poprawia reasoning; budżet 0 wyłącza myślenie (szybciej/t
 Użyj `generate_content_stream`, aby wypisywać fragmenty na bieżąco.
 
 ```python
+import os
+from dotenv import load_dotenv
 from google import genai
 
-client = genai.Client()
+load_dotenv()
+api_key = os.getenv("GEMINI_API_KEY")
+client = genai.Client(api_key=api_key)
 
 response = client.models.generate_content_stream(
-   model="gemini-2.5-flash",
-   contents=["Opisz krótko działanie uczenia maszynowego"],
+   model="gemini-2.0-flash",
+   contents=["Opisz historię księstwa warszawskiego"],
 )
 for chunk in response:
    print(chunk.text, end="")
@@ -338,9 +374,13 @@ Krótko: streaming poprawia UX w terminalu — treść pojawia się przyrostowo.
 Przykład: kilka tur i podgląd historii.
 
 ```python
+import os
+from dotenv import load_dotenv
 from google import genai
 
-client = genai.Client()
+load_dotenv()
+api_key = os.getenv("GEMINI_API_KEY")
+client = genai.Client(api_key=api_key)
 chat = client.chats.create(model="gemini-2.5-flash")
 
 r1 = chat.send_message("Mam w domu 2 psy.")
@@ -369,10 +409,14 @@ pip install -r requirements.txt
 Przykład:
 
 ```python
+import os
+from dotenv import load_dotenv
 from PIL import Image
 from google import genai
 
-client = genai.Client()
+load_dotenv()
+api_key = os.getenv("GEMINI_API_KEY")
+client = genai.Client(api_key=api_key)
 image = Image.open("image.png")
 
 resp = client.models.generate_content(
