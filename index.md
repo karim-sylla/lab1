@@ -233,3 +233,154 @@ gemini_projekt/
 Następnym krokiem będzie utworzenie modułu API Gemini, który posłuży jako wspólna warstwa komunikacji z API dla wszystkich naszych aplikacji. Przejdź do [modułu API](gemini-api-module.md), aby poznać szczegóły implementacji funkcji obsługującej Gemini API.
 
 Po opanowaniu podstaw komunikacji z API, zajmiemy się budowaniem aplikacji desktopowych, które zapewnią bardziej przyjazny interfejs użytkownika do interakcji z modelem Gemini. Przejdź do [aplikacji desktopowych](aplikacje-desktopowe.md), aby dowiedzieć się, jak tworzyć aplikacje GUI przy użyciu Tkinter i PySide6.
+
+## Rozbudowa aplikacji terminalowej — ćwiczenia (a–f)
+
+W tej części będziesz inkrementalnie rozszerzać `app_terminal.py`. Każdy krok bazuje na poprzednim i jest zgodny z dokumentacją „Generowanie tekstu” Gemini API.
+
+- a) wprowadzenie parametru temperatury
+- b) wprowadzenie prompta systemowego
+- c) wprowadzenie reasoningu (zmień model na 2.5 Flash)
+- d) wprowadzenie streamingu
+- e) wprowadzenie chatu z historią
+- f) wprowadzenie multimodalności (czytanie pliku `image.png` z katalogu głównego)
+
+Wskazówka: dalej używamy pakietu `google-genai`. Importujemy też `types` do konfiguracji.
+
+### a) Parametr temperatury (kontrola kreatywności)
+
+Najprostsze ustawienie temperatury przez `GenerateContentConfig`.
+
+```python
+from google import genai
+from google.genai import types
+client = genai.Client()  # pobiera GEMINI_API_KEY z env
+
+resp = client.models.generate_content(
+   model="gemini-2.0-flash",  # w (c) przełączymy na 2.5
+   contents=["Explain how AI works in a few words"],
+   config=types.GenerateContentConfig(temperature=0.2),
+)
+print(resp.text)
+```
+
+Krótko: niższa temperatura (np. 0.1) = bardziej zachowawcze; wyższa (np. 0.9) = bardziej kreatywne.
+
+### b) Prompt systemowy (sterowanie rolą modelu)
+
+Użyj `system_instruction`, aby ustawić personę/zasady.
+
+```python
+from google import genai
+from google.genai import types
+
+client = genai.Client()
+
+resp = client.models.generate_content(
+   model="gemini-2.0-flash",
+   contents=["Napisz 3 wskazówki produktywności"],
+   config=types.GenerateContentConfig(
+      system_instruction="Jesteś asystentem-ekspertem. Pisz zwięźle po polsku."
+   ),
+)
+print(resp.text)
+```
+
+Krótko: `system_instruction` ustawia „personę”/reguły modelu (np. ton, rola, format).
+
+### c) Reasoning: przejście na Gemini 2.5 Flash i budżet myślenia
+
+Przełącz model na `gemini-2.5-flash`. „Myślenie” (reasoning) jest domyślnie włączone. Opcjonalnie możesz ustawić budżet myślenia.
+
+```python
+from google.genai import types
+from google import genai
+
+client = genai.Client()
+
+resp = client.models.generate_content(
+   model="gemini-2.5-flash",
+   contents=["Wyjaśnij paradoks kłamcy prostym językiem"],
+   # config=types.GenerateContentConfig(
+   #     thinking_config=types.ThinkingConfig(thinking_budget=0)  # 0 = wyłącza myślenie
+   # ),
+)
+print(resp.text)
+```
+
+Krótko: 2.5 Flash poprawia reasoning; budżet 0 wyłącza myślenie (szybciej/taniej).
+
+### d) Streaming odpowiedzi (płynne wyświetlanie)
+
+Użyj `generate_content_stream`, aby wypisywać fragmenty na bieżąco.
+
+```python
+from google import genai
+
+client = genai.Client()
+
+response = client.models.generate_content_stream(
+   model="gemini-2.5-flash",
+   contents=["Opisz krótko działanie uczenia maszynowego"],
+)
+for chunk in response:
+   print(chunk.text, end="")
+```
+
+Krótko: streaming poprawia UX w terminalu — treść pojawia się przyrostowo.
+
+### e) Chat z historią (wieloturówka)
+
+Przykład: kilka tur i podgląd historii.
+
+```python
+from google import genai
+
+client = genai.Client()
+chat = client.chats.create(model="gemini-2.5-flash")
+
+r1 = chat.send_message("Mam w domu 2 psy.")
+print(r1.text)
+
+r2 = chat.send_message("Ile łap jest w moim domu?")
+print(r2.text)
+
+for m in chat.get_history():
+   print(f"{m.role}: {m.parts[0].text}")
+```
+
+Krótko: SDK utrzymuje historię; przy każdej turze wysyłana jest pełna konwersacja.
+
+### f) Multimodalność: tekst + obraz (`image.png` w katalogu głównym)
+
+Wczytaj obraz i wyślij go razem z promptem. Wymaga biblioteki Pillow.
+
+Upewnij się, że w katalogu projektu istnieje plik `image.png`. Jeśli nie masz Pillow, doinstaluj:
+
+```powershell
+pip install Pillow
+```
+
+Przykład:
+
+```python
+from PIL import Image
+from google import genai
+
+client = genai.Client()
+image = Image.open("image.png")
+
+resp = client.models.generate_content(
+   model="gemini-2.5-flash",
+   contents=[image, "Co znajduje się na tym obrazie?"],
+)
+print(resp.text)
+```
+
+Krótko: API 2.5 przyjmuje obrazy jako wejście; możesz pytać np. „Co jest na obrazku?” lub „Podsumuj zawartość wykresu”.
+
+### Notatki końcowe
+
+- Parametry możesz łączyć: np. `--system`, `--temperature`, `--stream` działają jednocześnie.
+- Dla multimodalności dodaj `Pillow` do `requirements.txt` lub instaluj ad-hoc.
+- Dokumentacja, na której bazują powyższe przykłady: [Gemini - Generowanie tekstu](https://ai.google.dev/gemini-api/docs/text-generation)” (sekcje: system instruction, temperature, streaming, chat, multimodal).
